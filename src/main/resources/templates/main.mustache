@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <div>
+        <form action="/logout" method="post">
+            <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+            <input type="submit" value="Sign Out"/>
+        </form>
+    </div>
+    <form method="POST">
+        <input type="text" name="text" placeholder="Enter text">
+        <input type="text" name="tag" placeholder="Enter tag">
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+
+        <button type="submit">Add</button>
+    </form>
+    <form method="POST" action="filter">
+        <input type="text" name="filter">
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+
+        <button type="submit">Search</button>
+     </form>
+{{#messages}}
+<div>
+    <b>{{id}}</b>
+    <i>{{text}}</i>
+    <span>{{tag}}</b>
+    <strong>{{authorName}}</strong>
+</div>
+{{/messages}}
+</body>
+</html>
