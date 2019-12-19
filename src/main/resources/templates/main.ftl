@@ -1,8 +1,6 @@
 <#import "parts/common.ftl" as common>
-<#import "parts/login.ftl" as login>
 <@common.page>
     <div>
-    <@login.logout/>
     </div>
     <a href="user">User list</a>
     <form method="post" enctype="multipart/form-data">
