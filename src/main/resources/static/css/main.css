@@ -14,6 +14,12 @@
     top: 30%;
 }
 
+.user-avatar{
+    width: 100px;
+    height: 100px;
+    margin:20px;
+}
+
 .reg-form-position-left {
     width: 30%;
     position: fixed;

@@ -27,7 +27,7 @@
                 <div class="nav-link"><a class="btn btn-primary" href="/login">login</a></div>
                 <#else>
                 <div class="nav-link"><@logout.logout /></div>
-                <div class="nav-link"><a class="btn btn-primary" href="/#">Cabinet</a></div>
+                <div class="nav-link"><a class="btn btn-primary" href="/cabinet">Cabinet</a></div>
             </#if>
         </div>
     </nav>
