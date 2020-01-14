@@ -69,10 +69,4 @@ public class MainController {
         model.put("messages", allMessages);
         return "main";
     }
-
-    @GetMapping("/login")
-    public String login() {
-
-        return "login";
-    }
 }

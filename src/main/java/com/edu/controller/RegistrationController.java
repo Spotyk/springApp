@@ -1,32 +1,27 @@
 package com.edu.controller;
 
-import com.edu.domain.Role;
-import com.edu.domain.User;
-import com.edu.repository.UserRepository;
+import com.edu.domain.model.impl.RegistrationFormUserModel;
+import com.edu.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
+import javax.validation.Valid;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
 
 @Controller
 public class RegistrationController {
-    @Value("${upload.path}")
-    private String uploadPath;
+
+    private UserService userService;
+
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private PasswordEncoder encoder;
+    public RegistrationController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/registration")
     public String register() {
@@ -35,32 +30,24 @@ public class RegistrationController {
 
     @PostMapping("/registration")
     public String addUser(
-            User user,
-            Map<String, Object> model,
-            @RequestParam("avatar") MultipartFile file
+            @Valid RegistrationFormUserModel registrationFormUserModel,
+            BindingResult bindingResult,
+            Model model
     ) throws IOException {
-
-        String email = Optional.ofNullable(user.getEmail()).orElse("u");
-        if (file != null && !file.getOriginalFilename().isEmpty()) {
-            File uploadDir = new File(uploadPath);
-            if (!uploadDir.exists()) {
-                uploadDir.mkdir();
-            }
-            String uuidFile = UUID.randomUUID().toString();
-            String resultFileName = uuidFile + "." + file.getOriginalFilename();
-            file.transferTo(new File(uploadPath + "/" + resultFileName));
-            user.setAvatarPath(resultFileName);
-
+        if (registrationFormUserModel.getPassword() != null && !registrationFormUserModel.getPassword().equals(registrationFormUserModel.getPassword2())) {
+            model.addAttribute("passwordError", "Passwords are different!");
         }
-        User userFromDb = userRepository.findByEmail(email);
-        if (userFromDb != null) {
-            model.put("message", "User exists");
+
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
+            model.mergeAttributes(errors);
             return "registration";
         }
-        user.setPassword(encoder.encode(user.getPassword()));
-        user.setActive(true);
-        user.setRoles(Collections.singleton(Role.USER));
-        userRepository.save(user);
+
+        if (!userService.addUser(registrationFormUserModel)) {
+            model.addAttribute("emailError", "Email exists!");
+            return "registration";
+        }
 
         return "redirect:/login";
     }

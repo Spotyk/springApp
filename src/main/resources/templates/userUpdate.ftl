@@ -3,5 +3,5 @@
 
 <@common.page>
 ${message!}
-<@reg.registration "/registration" />
+<@reg.registration "/userUpdate" />
 </@common.page>

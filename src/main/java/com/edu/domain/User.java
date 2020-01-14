@@ -5,6 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.CollectionTable;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -14,8 +15,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import java.time.LocalDate;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Set;
 
 @Entity(name = "usr")
@@ -24,15 +25,29 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(name = "username", columnDefinition = "text")
     private String username;
+
+    @Column(name = "password", columnDefinition = "text")
     private String password;
+
+    @Column(name = "email", columnDefinition = "text")
     private String email;
+
+    @Column(name = "country", columnDefinition = "text")
     private String country;
+
+    @Column(name = "state", columnDefinition = "text")
     private String state;
+
+    @Column(name = "avatarPath", columnDefinition = "text")
     private String avatarPath;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    private Date birthDate;
+    @Column(name = "birthDate")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate birthDate;
+
+    @Column(name = "active")
     private boolean active;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
@@ -137,11 +152,11 @@ public class User implements UserDetails {
         this.avatarPath = avatarPath;
     }
 
-    public Date getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
