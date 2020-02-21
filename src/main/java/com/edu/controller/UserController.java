@@ -2,14 +2,12 @@ package com.edu.controller;
 
 import com.edu.command.UpdateCommandContainer;
 import com.edu.command.UpdateUserCommand;
-import com.edu.domain.User;
+import com.edu.domain.entity.User;
 import com.edu.domain.model.InputFieldModel;
 import com.edu.domain.model.impl.UpdateFormUserModel;
 import com.edu.service.UserService;
 import com.edu.util.UserUpdateContainerInitializer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -30,18 +28,14 @@ import java.util.Map;
 
 @Controller
 public class UserController {
+    private final PasswordEncoder encoder;
+    private final UserService userService;
     @Value("${upload.path}")
     private String uploadPath;
 
-    private PasswordEncoder encoder;
-    private UserService userService;
-    private ApplicationContext appContext;
-
-    @Autowired
-    public UserController(PasswordEncoder encoder, UserService userService, ApplicationContext appContext) {
+    public UserController(final PasswordEncoder encoder, final UserService userService) {
         this.encoder = encoder;
         this.userService = userService;
-        this.appContext = appContext;
     }
 
     @GetMapping("/cabinet")
@@ -63,8 +57,7 @@ public class UserController {
             @AuthenticationPrincipal User userBeforeChanges,
             @Valid UpdateFormUserModel updateFormUserModel,
             BindingResult bindingResult,
-            Model model) throws IOException {
-
+            Model model) {
         User userFromBd = userService.findPasswordByUserId(userBeforeChanges.getId());
 
         if (!encoder.matches(updateFormUserModel.getOldPassword(), userFromBd.getPassword())) {
@@ -97,14 +90,6 @@ public class UserController {
             return "userUpdate";
         }
 
-
-        //userBeforeChanges.setState("Ukrreainaaaaaaa");
-        //userBeforeChanges.setUsername("Ukrreainaaaaaaa");
-
-        //userService.updateUsername(updateFormUserModel, userBeforeChanges);
-
-        // session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
-
         return "cabinet";
     }
 
@@ -114,7 +99,6 @@ public class UserController {
             @AuthenticationPrincipal User userBeforeChanges,
             @Valid InputFieldModel inputField,
             BindingResult bindingResult,
-            Model model,
             HttpServletResponse response
     ) {
         UserUpdateContainerInitializer container = new UserUpdateContainerInitializer(userService);

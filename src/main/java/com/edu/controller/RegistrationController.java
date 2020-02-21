@@ -2,7 +2,6 @@ package com.edu.controller;
 
 import com.edu.domain.model.impl.RegistrationFormUserModel;
 import com.edu.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,10 +15,9 @@ import java.util.Map;
 @Controller
 public class RegistrationController {
 
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    public RegistrationController(UserService userService) {
+    public RegistrationController(final UserService userService) {
         this.userService = userService;
     }
 

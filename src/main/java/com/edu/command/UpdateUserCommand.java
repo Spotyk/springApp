@@ -1,6 +1,6 @@
 package com.edu.command;
 
-import com.edu.domain.User;
+import com.edu.domain.entity.User;
 
 import java.util.List;
 

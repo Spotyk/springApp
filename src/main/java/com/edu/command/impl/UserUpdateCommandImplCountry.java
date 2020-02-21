@@ -1,20 +1,17 @@
 package com.edu.command.impl;
 
 import com.edu.command.UpdateUserCommand;
-import com.edu.domain.User;
+import com.edu.domain.entity.User;
 import com.edu.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 public class UserUpdateCommandImplCountry implements UpdateUserCommand {
 
+    private final UserService userService;
     private List<String> errors;
 
-    @Autowired
-    private UserService userService;
-
-    public UserUpdateCommandImplCountry(List<String> errors, UserService userService) {
+    public UserUpdateCommandImplCountry(List<String> errors, final UserService userService) {
         this.errors = errors;
         this.userService = userService;
     }

@@ -1,5 +1,7 @@
 package com.edu.domain;
 
+import com.edu.domain.entity.User;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;

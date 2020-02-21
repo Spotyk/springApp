@@ -1,7 +1,7 @@
 package com.edu.command.impl;
 
 import com.edu.command.UpdateUserCommand;
-import com.edu.domain.User;
+import com.edu.domain.entity.User;
 import com.edu.service.UserService;
 
 import java.util.List;

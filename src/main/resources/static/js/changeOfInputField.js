@@ -1,4 +1,11 @@
 var INPUT_SELECTOR = ".form-control";
+var ID_SELECTOR = ".id";
+var EMAIL_SELECTOR = ".email";
+var STATE_SELECTOR = ".state";
+var COUNTRY_SELECTOR = ".country";
+var USERNAME_SELECTOR = ".username";
+var csrfToken = $("meta[name='_csrf']").attr("content");
+
 
 function makeAble(event){
     let $thisButton = $(event.target);
@@ -37,8 +44,6 @@ function disableElementJQ($element, boolean){
 
 function sendUpdateRequest($inputField){
     var paramName = $inputField.attr("name");
-
-    let csrfToken = $("meta[name='_csrf']").attr("content");
 
     if(paramName === "filePath"){
         var form = $('#fileUploadForm')[0];
@@ -89,4 +94,50 @@ function showArrayFromString(array) {
     arrOfSelectors.forEach(function(element) {
         $(element).show();
     });
+}
+function makeAbleFields(event){
+    event.preventDefault();
+    let $thisButton = $(event.target);
+
+    let $inputFields = $thisButton.parent().parent().find(INPUT_SELECTOR);
+
+    if($thisButton.text() == "Change"){
+        disableElementJQ($inputFields, false);
+        changeButtonText($thisButton, 'Save');
+    }else{
+        disableElementJQ($inputFields, true);
+        changeButtonText($thisButton, 'Change');
+
+        let $grandParent = $thisButton.parent().parent();
+
+        let $inputIdValue = $grandParent.find(INPUT_SELECTOR + ID_SELECTOR);
+        let $inputUsernameValue = $grandParent.find(INPUT_SELECTOR + USERNAME_SELECTOR);
+        let $inputEmailValue = $grandParent.find(INPUT_SELECTOR + EMAIL_SELECTOR);
+        let $inputCountryValue = $grandParent.find(INPUT_SELECTOR + COUNTRY_SELECTOR);
+        let $inputStateValue = $grandParent.find(INPUT_SELECTOR + STATE_SELECTOR);
+
+        sendForm($inputIdValue, $inputUsernameValue, $inputEmailValue, $inputCountryValue, $inputStateValue);
+    }
+}
+
+function sendForm($inputIdValue, $inputUsernameValue, $inputEmailValue, $inputCountryValue, $inputStateValue){
+    $.ajax({
+            url: `/changeUserInfo`,
+            type: 'post',
+            headers: {'X-XSRF-TOKEN': csrfToken},
+            data: { id:$inputIdValue.val(),
+            username:$inputUsernameValue.val(),
+            email:$inputEmailValue.val(),
+            country:$inputCountryValue.val(),
+            state:$inputStateValue.val() }
+        }).statusCode({
+            200: function() {
+                console.log("success");
+            },
+            400: function(response) {
+            console.log(response.responseText)
+            var array = JSON.parse("[" + response.responseText + "]");
+            showArrayFromString(array);
+            }
+        });
 }

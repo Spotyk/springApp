@@ -14,12 +14,12 @@ import java.time.LocalDate;
 
 public class RegistrationFormUserModel implements UserModel {
     @NotNull
-    @Size(min = 2, max = 20, message = "Name should not be less than 2 symbols")
+    @Size(min = 2, max = 20, message = "Name should not be less than 2 symbols and should`nt be longer than 20")
     @Pattern(regexp = "^[A-zА-я]*$")
     private String username;
 
     @NotNull
-    @Size(min = 2, max = 200, message = "Pass should not be less than 2 symbols")
+    @Size(min = 2, max = 200, message = "Pass should not be less than 2 symbols and should`nt be longer than 200")
     @Pattern(regexp = "^[A-zА-я0-9]*$")
     private String password;
 
@@ -32,12 +32,12 @@ public class RegistrationFormUserModel implements UserModel {
     private String email;
 
     @NotNull
-    @Size(min = 2, max = 200, message = "Country is mandatory")
+    @Size(min = 2, max = 20, message = "Country should not be less than 2 symbols and should`nt be longer than 20")
     @Pattern(regexp = "^[A-zА-я]*$")
     private String country;
 
     @NotNull
-    @Size(min = 2, max = 20, message = "State is mandatory")
+    @Size(min = 2, max = 20, message = "State should not be less than 2 symbols and should`nt be longer than 20")
     @Pattern(regexp = "^[A-zА-я]*$")
     private String state;
 

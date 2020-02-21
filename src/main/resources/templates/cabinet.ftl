@@ -14,7 +14,6 @@
         birthDate = user.getBirthDate()
         isAdmin = user.isAdmin()
         isEnabled = user.isEnabled()
-        avatarPath = user.getAvatarPath()
     >
 <#else>
     <#assign
@@ -22,10 +21,16 @@
         isAdmin = false
     >
 </#if>
+
+        <#if user.getAvatarPath()??>
+         <#assign
+                    avatarPath = user.getAvatarPath()
+                    >
+                </#if>
 <@common.page>
 <div class="reg-form-position-left no-selectable" >
     <div>
-    <img class = "user-avatar" src = "img/${avatarPath}">
+    <img class = "user-avatar" src = "img/${avatarPath!}">
     </div>
     <form method="POST" enctype="multipart/form-data" id="fileUploadForm">
          <span class="invalid-input filePathError no-display">file name is not valid</span>
@@ -108,7 +113,7 @@
       </select>
       <div class="input-group-append">
               <button class="btn btn-outline-secondary changeable" type="button" onclick="makeAble(event)">Change</button>
-            </div>
+      </div>
     </div>
 </div>
 

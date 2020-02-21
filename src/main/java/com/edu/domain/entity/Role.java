@@ -1,4 +1,4 @@
-package com.edu.domain;
+package com.edu.domain.entity;
 
 import org.springframework.security.core.GrantedAuthority;
 

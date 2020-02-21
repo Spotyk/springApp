@@ -1,12 +1,13 @@
 package com.edu.service;
 
-import com.edu.domain.Role;
-import com.edu.domain.User;
+import com.edu.domain.entity.Role;
+import com.edu.domain.entity.User;
 import com.edu.domain.model.UserModel;
+import com.edu.domain.model.admin.UserUpdateForm;
 import com.edu.repository.UserRepository;
+import com.edu.util.FileSaver;
 import com.edu.util.UserExtractorFromDTO;
 import com.edu.util.Validator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,6 +19,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static com.edu.command.constant.Constants.DEFAULT_CANADA_STATE;
 import static com.edu.command.constant.Constants.DEFAULT_USA_STATE;
@@ -25,11 +27,10 @@ import static com.edu.command.constant.Constants.USA;
 
 @Service
 public class UserService implements UserDetailsService {
-    private UserRepository userRepository;
-    private UserExtractorFromDTO userExtractorFromDTO;
+    private final UserRepository userRepository;
+    private final UserExtractorFromDTO userExtractorFromDTO;
 
-    @Autowired
-    public UserService(UserRepository userRepository, UserExtractorFromDTO userExtractorFromDTO) {
+    public UserService(final UserRepository userRepository, final UserExtractorFromDTO userExtractorFromDTO) {
         this.userRepository = userRepository;
         this.userExtractorFromDTO = userExtractorFromDTO;
     }
@@ -168,7 +169,7 @@ public class UserService implements UserDetailsService {
     }
 
     public String updateAvatarPath(MultipartFile avatar, String uploadPath, User user) throws IOException {
-        String storagePath = userExtractorFromDTO.saveFile(avatar, uploadPath);
+        String storagePath = new FileSaver().saveFile(avatar, uploadPath);
 
         if (storagePath == null || storagePath.isEmpty()) {
             return "";
@@ -181,5 +182,36 @@ public class UserService implements UserDetailsService {
 
         userRepository.save(userFromBd);
         return storagePath;
+    }
+
+    public List<User> findAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public boolean updateUserByAdmin(UserUpdateForm form) {
+        Optional<User> optionalUserFromBD = userRepository.findById(form.getId());
+
+        if (!optionalUserFromBD.isPresent()) {
+            return false;
+        }
+
+        User userFromBd = optionalUserFromBD.get();
+
+        String currentEmail = userFromBd.getEmail();
+        String newEmail = form.getEmail();
+
+
+        if (findByEmail(newEmail) != null && !currentEmail.equals(newEmail)) {
+            return false;
+        }
+
+        userFromBd.setUsername(form.getUsername());
+        userFromBd.setState(form.getState());
+        userFromBd.setCountry(form.getCountry());
+        userFromBd.setEmail(form.getEmail());
+
+        userRepository.save(userFromBd);
+
+        return true;
     }
 }

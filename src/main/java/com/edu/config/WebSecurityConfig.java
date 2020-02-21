@@ -1,7 +1,6 @@
 package com.edu.config;
 
 import com.edu.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -17,16 +16,21 @@ import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+
+    private final UserService userService;
+
+    private final PasswordEncoder passwordEncoder;
+
+    public WebSecurityConfig(final UserService userService, final PasswordEncoder passwordEncoder) {
+        this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/registration", "/static/**").permitAll()
+                .antMatchers("/", "/registration", "/static/**", "/getAllCategories", "/getAllProducts", "/category**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

@@ -3,7 +3,7 @@
 <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light no-selectable">
         <a class="navbar-brand" href="/">
-            <img src="static/image/brand/brand.svg" width="30" height="30" class="d-inline-block align-top" alt="brand">
+            <img src="/static/image/brand/brand.svg" width="30" height="30" class="d-inline-block align-top" alt="brand">
         </a>
         <a class="navbar-brand" href="/">Company</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,6 +28,12 @@
                 <#else>
                 <div class="nav-link"><@logout.logout /></div>
                 <div class="nav-link"><a class="btn btn-primary" href="/cabinet">Cabinet</a></div>
+                <div class="nav-link"><a class="btn btn-primary" href="/order">Orders</a></div>
+                <div class="nav-link"><a class="btn btn-primary" href="/cart">Cart</a></div>
+
+            </#if>
+            <#if role?? && role?seq_contains("ADMIN")>
+                <div class="nav-link"><a class="btn btn-primary" href="/adminPanel">Admin Panel</a></div>
             </#if>
         </div>
     </nav>

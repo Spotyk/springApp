@@ -1,61 +1,193 @@
 package com.edu.controller;
 
-import com.edu.domain.Role;
-import com.edu.domain.User;
-import com.edu.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.edu.domain.entity.Order;
+import com.edu.domain.entity.Product;
+import com.edu.domain.model.OrderBean;
+import com.edu.domain.model.OrderStatusModel;
+import com.edu.domain.model.admin.CategoryCreateModel;
+import com.edu.domain.model.admin.CategoryUpdateModel;
+import com.edu.domain.model.admin.ProductCreationModel;
+import com.edu.domain.model.admin.UserUpdateForm;
+import com.edu.service.CategoryService;
+import com.edu.service.OrderService;
+import com.edu.service.ProductService;
+import com.edu.service.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Arrays;
+import javax.validation.Valid;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/user")
 @PreAuthorize("hasAuthority('ADMIN')")
 public class AdminController {
-    @Autowired
-    UserRepository userRepository;
 
-    @GetMapping
-    public String userList(Model model) {
-        model.addAttribute("users", userRepository.findAll());
-        return "userList";
+    private final UserService userService;
+
+    private final CategoryService categoryService;
+
+    private final ProductService productService;
+
+    private final OrderService orderService;
+
+    public AdminController(final UserService userService, final CategoryService categoryService, final ProductService productService,
+                           final OrderService orderService) {
+        this.userService = userService;
+        this.categoryService = categoryService;
+        this.productService = productService;
+        this.orderService = orderService;
     }
 
-    @GetMapping("{user}")
-    public String userEditForm(@PathVariable User user, Model model) {
-        model.addAttribute("user", user);
-        model.addAttribute("roles", Role.values());
-        return "userEdit";
+    @GetMapping("/adminPanel")
+    public String adminPanel() {
+        return "adminPanel";
     }
 
-    @PostMapping
-    public String userSave(
-            @RequestParam String username,
-            @RequestParam Map<String, String> form,
-            @RequestParam("userId") User user
-    ) {
-        user.getRoles().clear();
-        user.setUsername(username);
-        Set<String> roles = Arrays.stream(Role.values())
-                .map(Role::name)
-                .collect(Collectors.toSet());
-        for (String key : form.keySet()) {
-            if (roles.contains(key)) {
-                user.getRoles().add(Role.valueOf(key));
-            }
+    @GetMapping("/users")
+    public String getAllUsers(Model model) {
+        model.addAttribute("users", userService.findAllUsers());
+        return "users";
+    }
+
+    @GetMapping("/categoryUpdatePage")
+    public String getCategoryUpdatePage() {
+        return "categoryUpdatePage";
+    }
+
+    @GetMapping("/categoryCreationPage")
+    public String getCategoryCreationPage() {
+        return "categoryCreationPage";
+    }
+
+    @GetMapping("/productCreationPage")
+    public String getProductCreationPage() {
+        return "productCreationPage";
+    }
+
+    @GetMapping("/productUpdatePage")
+    public String getProductUpdatePage() {
+        return "productUpdatePage";
+    }
+
+    @GetMapping("/showProducts")
+    public String getAllProducts() {
+        return "showProducts";
+    }
+
+    @GetMapping("/getCategories")
+    public ResponseEntity<?> getCategories() {
+        return ResponseEntity.ok(categoryService.getAllCategories());
+    }
+
+    @GetMapping("/showOrders")
+    public String getOrderPage(Model model) {
+        List<Order> orders = orderService.findAll();
+
+        if (orders.isEmpty()) {
+            model.addAttribute("orderError", "You have no orders");
+            return "showOrders";
+        }
+        model.addAttribute("orders", orders);
+        return "showOrders";
+    }
+
+    @PostMapping("/createProduct")
+    public String createProduct(
+            @Valid ProductCreationModel productCreationModel,
+            BindingResult bindingResult,
+            Model model) {
+
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
+            model.mergeAttributes(errors);
         }
 
-        userRepository.save(user);
-        return "redirect:/user";
+        try {
+            if (!productService.addProduct(productCreationModel)) {
+                model.addAttribute("ProductNameError", "Product or Categiry Name not correct");
+            }
+        } catch (IOException e) {
+            model.addAttribute("FileError", "Something went wrong with file.");
+        }
+
+        return "productCreationPage";
+    }
+
+    // TODO: 2/17/2020
+    //todo product update post
+
+    @GetMapping("/updateProduct/{productId}")
+    public String editProduct(@PathVariable Product productId, Model model) {
+        model.addAttribute("currentProduct", productId);
+
+        return "productUpdatePage";
+    }
+
+    @PostMapping("/createCategory")
+    public String createCategory(
+            @Valid CategoryCreateModel categoryCreateModel,
+            BindingResult bindingResult,
+            Model model) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
+            model.mergeAttributes(errors);
+            return "categoryCreationPage";
+        }
+
+        if (!categoryService.addCategory(categoryCreateModel)) {
+            model.addAttribute("categoryNameError", "Name exists!");
+        }
+
+        return "categoryCreationPage";
+    }
+
+    @PostMapping("/changeUserInfo")
+    public String adminUserApdate(UserUpdateForm updateForm) {
+        userService.updateUserByAdmin(updateForm);
+
+        return "users";
+    }
+
+    @PostMapping("/changeOrderStatus")
+    public String adminChangeOrderStatus(
+            @Valid OrderStatusModel orderStatusModel,
+            BindingResult bindingResult,
+            Model model) {
+
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
+            model.mergeAttributes(errors);
+            return "showOrders";
+        }
+        orderService.changeStatus(orderStatusModel);
+
+        return "showOrders";
+    }
+
+    @PostMapping("/updateCategory")
+    public String updateCategory(
+            @Valid CategoryUpdateModel categoryUpdateModel,
+            BindingResult bindingResult,
+            Model model) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
+            model.mergeAttributes(errors);
+            return "categoryUpdatePage";
+        }
+
+        if (!categoryService.updateCategory(categoryUpdateModel)) {
+            model.addAttribute("categoryNameError", "Name exists!");
+        }
+
+        return "categoryUpdatePage";
     }
 }
