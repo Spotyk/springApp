@@ -1,6 +1,7 @@
 <#macro product path>
     <form method="POST" action="${path}" enctype="multipart/form-data">
         <input type="hidden" name="_csrf" value="${_csrf.token}">
+        <input type="hidden" name="id" value="${(currentProduct.id)!}">
 
         <div class="mb-3">
             <label>Category</label>

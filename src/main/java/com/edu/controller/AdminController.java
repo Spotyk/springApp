@@ -2,11 +2,11 @@ package com.edu.controller;
 
 import com.edu.domain.entity.Order;
 import com.edu.domain.entity.Product;
-import com.edu.domain.model.OrderBean;
 import com.edu.domain.model.OrderStatusModel;
 import com.edu.domain.model.admin.CategoryCreateModel;
 import com.edu.domain.model.admin.CategoryUpdateModel;
 import com.edu.domain.model.admin.ProductCreationModel;
+import com.edu.domain.model.admin.ProductUpdateModel;
 import com.edu.domain.model.admin.UserUpdateForm;
 import com.edu.service.CategoryService;
 import com.edu.service.OrderService;
@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -126,10 +125,16 @@ public class AdminController {
     //todo product update post
 
     @GetMapping("/updateProduct/{productId}")
-    public String editProduct(@PathVariable Product productId, Model model) {
+    public String editProductPage(@PathVariable Product productId, Model model) {
         model.addAttribute("currentProduct", productId);
 
         return "productUpdatePage";
+    }
+
+    @PostMapping("/updateProduct")
+    public String updateProduct(@Valid ProductUpdateModel updateModel) throws IOException {
+        productService.updateProduct(updateModel);
+        return "showProducts";
     }
 
     @PostMapping("/createCategory")

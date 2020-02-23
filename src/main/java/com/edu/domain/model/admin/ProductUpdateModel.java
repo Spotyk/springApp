@@ -7,7 +7,11 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class ProductCreationModel {
+public class ProductUpdateModel {
+
+    @NotNull
+    private Long id;
+
     @NotNull
     @Size(min = 2, max = 50, message = "Product name should not be less than 2 symbols and should`nt be longer than 50")
     private String productName;
@@ -29,7 +33,6 @@ public class ProductCreationModel {
     @Max(Integer.MAX_VALUE)
     private int price;
 
-    @NotNull
     private MultipartFile productImg;
 
     public String getProductName() {
@@ -78,5 +81,13 @@ public class ProductCreationModel {
 
     public void setProductImg(MultipartFile productImg) {
         this.productImg = productImg;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

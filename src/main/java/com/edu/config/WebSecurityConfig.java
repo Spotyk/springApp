@@ -43,8 +43,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilterAfter(new CSRFFilterConfiguration(), CsrfFilter.class)
                 .csrf().csrfTokenRepository(csrfTokenRepository());
-
-
     }
 
     @Override

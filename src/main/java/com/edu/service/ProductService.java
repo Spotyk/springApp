@@ -3,6 +3,7 @@ package com.edu.service;
 import com.edu.domain.entity.Category;
 import com.edu.domain.entity.Product;
 import com.edu.domain.model.admin.ProductCreationModel;
+import com.edu.domain.model.admin.ProductUpdateModel;
 import com.edu.repository.CategoryRepository;
 import com.edu.repository.ProductRepository;
 import com.edu.util.FileSaver;
@@ -44,6 +45,21 @@ public class ProductService {
         productRepository.save(extractProductFromModel(productCreationModel, currentCategory));
 
         return true;
+    }
+
+    public void updateProduct(ProductUpdateModel model) throws IOException {
+        Product product = productRepository.getOne(model.getId());
+        product.setCategory(categoryRepository.findByName(model.getCategoryName()));
+        product.setQuantity(model.getQuantity());
+        product.setPrice(model.getPrice());
+        product.setName(model.getProductName());
+        product.setDescription(model.getDescription());
+        MultipartFile productImg = model.getProductImg();
+        if (productImg != null) {
+            FileSaver fileSaver = new FileSaver();
+            product.setImgPath(fileSaver.saveFile(productImg, uploadPath));
+        }
+        productRepository.save(product);
     }
 
     private Product extractProductFromModel(ProductCreationModel model, Category currentCategory) throws IOException {
