@@ -27,7 +27,9 @@ import static com.edu.command.constant.Constants.USA;
 
 @Service
 public class UserService implements UserDetailsService {
+
     private final UserRepository userRepository;
+
     private final UserExtractorFromDTO userExtractorFromDTO;
 
     public UserService(final UserRepository userRepository, final UserExtractorFromDTO userExtractorFromDTO) {

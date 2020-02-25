@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class ProductCreationModel {
+
     @NotNull
     @Size(min = 2, max = 50, message = "Product name should not be less than 2 symbols and should`nt be longer than 50")
     private String productName;

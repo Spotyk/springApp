@@ -3,6 +3,7 @@ package com.edu.domain.model.admin;
 import javax.validation.constraints.NotNull;
 
 public class UserUpdateForm {
+
     @NotNull
     private Long id;
 

@@ -13,6 +13,7 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 public class UpdateFormUserModel implements UserModel {
+
     @NotNull
     @Size(min = 2, max = 20, message = "Name should not be less than 2 symbols")
     @Pattern(regexp = "^[A-zА-я]*$")

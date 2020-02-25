@@ -28,8 +28,11 @@ import java.util.Map;
 
 @Controller
 public class UserController {
+
     private final PasswordEncoder encoder;
+
     private final UserService userService;
+
     @Value("${upload.path}")
     private String uploadPath;
 

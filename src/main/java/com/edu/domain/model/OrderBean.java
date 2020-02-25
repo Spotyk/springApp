@@ -3,7 +3,9 @@ package com.edu.domain.model;
 import com.edu.domain.entity.Order;
 
 public class OrderBean {
+
     private Order order;
+
     private Long totalSum;
 
     public OrderBean() {

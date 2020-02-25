@@ -9,8 +9,11 @@ import java.util.regex.Pattern;
 public class Validator {
 
     private static final String EMAIL_PATTERN = "^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+
     private static final String DATE_PATTERN = "\\d{4}-\\d{2}-\\d{2}";
+
     private static final String STRING_PATTERN = "^[A-zА-я]*$";
+
     private static final String PASSWORD_PATTERN = "^[A-zА-я0-9]*$";
 
     public boolean isUsernameValid(String name) {

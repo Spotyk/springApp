@@ -121,9 +121,6 @@ public class AdminController {
         return "productCreationPage";
     }
 
-    // TODO: 2/17/2020
-    //todo product update post
-
     @GetMapping("/updateProduct/{productId}")
     public String editProductPage(@PathVariable Product productId, Model model) {
         model.addAttribute("currentProduct", productId);

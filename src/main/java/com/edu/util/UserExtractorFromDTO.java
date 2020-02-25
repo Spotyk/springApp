@@ -11,6 +11,7 @@ import java.io.IOException;
 
 @Component
 public class UserExtractorFromDTO {
+
     private final PasswordEncoder encoder;
 
     @Value("${upload.path}")

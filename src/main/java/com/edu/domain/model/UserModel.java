@@ -5,6 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDate;
 
 public interface UserModel {
+
     String getPassword();
 
     String getUsername();

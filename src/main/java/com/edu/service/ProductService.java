@@ -49,16 +49,19 @@ public class ProductService {
 
     public void updateProduct(ProductUpdateModel model) throws IOException {
         Product product = productRepository.getOne(model.getId());
+
         product.setCategory(categoryRepository.findByName(model.getCategoryName()));
         product.setQuantity(model.getQuantity());
         product.setPrice(model.getPrice());
         product.setName(model.getProductName());
         product.setDescription(model.getDescription());
         MultipartFile productImg = model.getProductImg();
+
         if (productImg != null) {
             FileSaver fileSaver = new FileSaver();
             product.setImgPath(fileSaver.saveFile(productImg, uploadPath));
         }
+
         productRepository.save(product);
     }
 
