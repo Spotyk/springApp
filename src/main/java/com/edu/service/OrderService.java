@@ -37,7 +37,7 @@ public class OrderService {
         orderRepository.getOne(orderId).setTotalSum(getTotalSumByOrderId(orderId));
     }
 
-    public Long getTotalSumByOrderId(Long id) {
+    private Long getTotalSumByOrderId(Long id) {
         return orderRepository.orderTotalSum(id);
     }
 
