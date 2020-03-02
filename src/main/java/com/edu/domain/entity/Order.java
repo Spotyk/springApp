@@ -19,6 +19,7 @@ import java.util.Set;
 
 @Entity(name = "ordr")
 public class Order {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

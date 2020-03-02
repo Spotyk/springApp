@@ -21,10 +21,4 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     List<Order> findAllByUserId(Long userId);
 
-    @Modifying
-    @Query(value = "UPDATE ordr " +
-            "SET total_sum = :sum " +
-            "WHERE id = :id",
-            nativeQuery = true)
-    void setTotalSum(@Param("sum") Long totalSum, @Param("id") Long orderId);
 }

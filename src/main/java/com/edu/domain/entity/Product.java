@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class Product {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -20,6 +21,7 @@ public class Product {
     private Category category;
 
     private String name;
+
     private String description;
 
     @Column(name = "quantity")

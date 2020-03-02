@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class OrderDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
