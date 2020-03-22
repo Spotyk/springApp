@@ -2,16 +2,18 @@ package com.edu.controller;
 
 import com.edu.domain.entity.Order;
 import com.edu.domain.entity.Product;
+import com.edu.domain.entity.Role;
 import com.edu.domain.model.OrderStatusModel;
 import com.edu.domain.model.admin.CategoryCreateModel;
 import com.edu.domain.model.admin.CategoryUpdateModel;
 import com.edu.domain.model.admin.ProductCreationModel;
 import com.edu.domain.model.admin.ProductUpdateModel;
 import com.edu.domain.model.admin.UserUpdateForm;
-import com.edu.service.CategoryService;
+import com.edu.domain.model.impl.RegistrationFormUserModel;
 import com.edu.service.OrderService;
 import com.edu.service.ProductService;
 import com.edu.service.UserService;
+import com.edu.service.impl.CategoryServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -32,13 +34,13 @@ public class AdminController {
 
     private final UserService userService;
 
-    private final CategoryService categoryService;
+    private final CategoryServiceImpl categoryService;
 
     private final ProductService productService;
 
     private final OrderService orderService;
 
-    public AdminController(final UserService userService, final CategoryService categoryService, final ProductService productService,
+    public AdminController(final UserService userService, final CategoryServiceImpl categoryService, final ProductService productService,
                            final OrderService orderService) {
         this.userService = userService;
         this.categoryService = categoryService;
@@ -128,6 +130,16 @@ public class AdminController {
         return "productUpdatePage";
     }
 
+    @GetMapping("/addManager")
+    public String addManager() {
+        return "addManager";
+    }
+
+    @GetMapping("/addAdmin")
+    public String addAdmin() {
+        return "addAdmin";
+    }
+
     @PostMapping("/updateProduct")
     public String updateProduct(@Valid ProductUpdateModel updateModel) throws IOException {
         productService.updateProduct(updateModel);
@@ -191,5 +203,47 @@ public class AdminController {
         }
 
         return "categoryUpdatePage";
+    }
+
+    @PostMapping("/createManager")
+    public String createManager(
+            @Valid RegistrationFormUserModel registrationFormUserModel,
+            BindingResult bindingResult,
+            Model model
+    ) throws IOException {
+        return addUser(registrationFormUserModel, bindingResult, model, Role.MANAGER);
+    }
+
+    @PostMapping("/createAdmin")
+    public String createAdmin(
+            @Valid RegistrationFormUserModel registrationFormUserModel,
+            BindingResult bindingResult,
+            Model model
+    ) throws IOException {
+        return addUser(registrationFormUserModel, bindingResult, model, Role.ADMIN);
+    }
+
+    private String addUser(
+            @Valid RegistrationFormUserModel registrationFormUserModel,
+            BindingResult bindingResult,
+            Model model,
+            Role role
+    ) throws IOException {
+        if (registrationFormUserModel.getPassword() != null && !registrationFormUserModel.getPassword().equals(registrationFormUserModel.getPassword2())) {
+            model.addAttribute("passwordError", "Passwords are different!");
+        }
+
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
+            model.mergeAttributes(errors);
+            return "registration";
+        }
+
+        if (!userService.addUser(registrationFormUserModel, role)) {
+            model.addAttribute("emailError", "Email exists!");
+            return "registration";
+        }
+
+        return "redirect:/adminPanel";
     }
 }

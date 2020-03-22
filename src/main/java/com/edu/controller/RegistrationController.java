@@ -1,5 +1,6 @@
 package com.edu.controller;
 
+import com.edu.domain.entity.Role;
 import com.edu.domain.model.impl.RegistrationFormUserModel;
 import com.edu.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -42,7 +43,7 @@ public class RegistrationController {
             return "registration";
         }
 
-        if (!userService.addUser(registrationFormUserModel)) {
+        if (!userService.addUser(registrationFormUserModel, Role.USER)) {
             model.addAttribute("emailError", "Email exists!");
             return "registration";
         }

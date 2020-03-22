@@ -3,7 +3,7 @@ package com.edu.domain.entity;
 import org.springframework.security.core.GrantedAuthority;
 
 public enum Role implements GrantedAuthority {
-    USER, ADMIN;
+    USER, ADMIN, MANAGER;
 
     @Override
     public String getAuthority() {

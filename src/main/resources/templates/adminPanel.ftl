@@ -7,4 +7,6 @@
     <a class="btn btn-info" href="/categoryUpdatePage">Update Category</a>
     <a class="btn btn-info" href="/productCreationPage">Create Product</a>
     <a class="btn btn-info" href="/showOrders">Show orders</a>
+    <a class="btn btn-info" href="/addAdmin">addAdmin</a>
+    <a class="btn btn-info" href="/addManager">addManager</a>
 </@common.page>
