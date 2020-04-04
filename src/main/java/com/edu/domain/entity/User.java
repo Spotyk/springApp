@@ -165,3 +165,18 @@ public class User implements UserDetails {
         return roles.contains(Role.ADMIN);
     }
 }
+/*
+@startuml
+class User{
+name:String
+password:String
+email:String
+state:String
+country:String
+avatarPath:String
+active:boolean
+role:String
+birthDate:Date
+}
+@enduml
+ */

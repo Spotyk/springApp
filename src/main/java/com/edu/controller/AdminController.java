@@ -28,8 +28,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import static com.edu.constant.ControllerConstant.HAS_ADMIN_AUTHORITY;
+
 @Controller
-@PreAuthorize("hasAuthority('ADMIN')")
+@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('MANAGER')")
 public class AdminController {
 
     private final UserService userService;
@@ -53,6 +55,7 @@ public class AdminController {
         return "adminPanel";
     }
 
+    @PreAuthorize(HAS_ADMIN_AUTHORITY)
     @GetMapping("/users")
     public String getAllUsers(Model model) {
         model.addAttribute("users", userService.findAllUsers());
@@ -130,11 +133,13 @@ public class AdminController {
         return "productUpdatePage";
     }
 
+    @PreAuthorize(HAS_ADMIN_AUTHORITY)
     @GetMapping("/addManager")
     public String addManager() {
         return "addManager";
     }
 
+    @PreAuthorize(HAS_ADMIN_AUTHORITY)
     @GetMapping("/addAdmin")
     public String addAdmin() {
         return "addAdmin";
@@ -165,7 +170,7 @@ public class AdminController {
     }
 
     @PostMapping("/changeUserInfo")
-    public String adminUserApdate(UserUpdateForm updateForm) {
+    public String adminUserUpdate(UserUpdateForm updateForm) {
         userService.updateUserByAdmin(updateForm);
 
         return "users";
@@ -205,6 +210,7 @@ public class AdminController {
         return "categoryUpdatePage";
     }
 
+    @PreAuthorize(HAS_ADMIN_AUTHORITY)
     @PostMapping("/createManager")
     public String createManager(
             @Valid RegistrationFormUserModel registrationFormUserModel,
@@ -214,6 +220,7 @@ public class AdminController {
         return addUser(registrationFormUserModel, bindingResult, model, Role.MANAGER);
     }
 
+    @PreAuthorize(HAS_ADMIN_AUTHORITY)
     @PostMapping("/createAdmin")
     public String createAdmin(
             @Valid RegistrationFormUserModel registrationFormUserModel,

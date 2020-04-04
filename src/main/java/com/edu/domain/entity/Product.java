@@ -1,5 +1,7 @@
 package com.edu.domain.entity;
 
+import com.edu.domain.entity.category.Category;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;

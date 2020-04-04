@@ -35,6 +35,9 @@
             <#if role?? && role?seq_contains("ADMIN")>
                 <div class="nav-link"><a class="btn btn-primary" href="/adminPanel">Admin Panel</a></div>
             </#if>
+            <#if role?? && role?seq_contains("MANAGER")>
+                <div class="nav-link"><a class="btn btn-primary" href="/adminPanel">Manager Panel</a></div>
+            </#if>
         </div>
     </nav>
 </header>
