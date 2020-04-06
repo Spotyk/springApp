@@ -1,3 +1,5 @@
+<#import "/spring.ftl" as spring/>
+
 <#macro page>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,6 +26,7 @@
      <script src="/static/js/changeOFCountry.js"></script>
      <script src="/static/js/changeOfInputField.js"></script>
      <script src="/static/js/getProductCategories.js"></script>
+     <script src="/static/js/language.js"></script>
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
      <script src="/static/js/changeOFCountry.js"></script>

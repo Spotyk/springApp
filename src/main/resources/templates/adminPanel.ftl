@@ -8,6 +8,8 @@
     <a class="btn btn-info" href="/categoryUpdatePage">Update Category</a>
     <a class="btn btn-info" href="/productCreationPage">Create Product</a>
     <a class="btn btn-info" href="/showOrders">Show orders</a>
+    <a class="btn btn-info" href="/languageCreationPage">Create Language</a>
+    <a class="btn btn-info" href="/languageUpdatePage">Update Language</a>
 
     <#if sec.role?? && sec.role?seq_contains("ADMIN")>
         <a class="btn btn-info" href="/addAdmin">addAdmin</a>

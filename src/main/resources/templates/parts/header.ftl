@@ -16,6 +16,10 @@
                         <li class="nav-item flex-item">
                             <a class="nav-link" href="/main">Main </a>
                         </li>
+                        <li class="nav-item flex-item">
+                            <select class="custom-select languages" name="language">
+                                                </select>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -27,9 +31,9 @@
                 <div class="nav-link"><a class="btn btn-primary" href="/login">login</a></div>
                 <#else>
                 <div class="nav-link"><@logout.logout /></div>
-                <div class="nav-link"><a class="btn btn-primary" href="/cabinet">Cabinet</a></div>
-                <div class="nav-link"><a class="btn btn-primary" href="/order">Orders</a></div>
-                <div class="nav-link"><a class="btn btn-primary" href="/cart">Cart</a></div>
+                <div class="nav-link"><a class="btn btn-primary" href="/cabinet"><@spring.message "cabinet"/></a></div>
+                <div class="nav-link"><a class="btn btn-primary" href="/order"><@spring.message "orders"/></a></div>
+                <div class="nav-link"><a class="btn btn-primary" href="/cart"><@spring.message "cart"/></a></div>
 
             </#if>
             <#if role?? && role?seq_contains("ADMIN")>

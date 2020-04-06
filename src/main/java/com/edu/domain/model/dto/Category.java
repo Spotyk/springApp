@@ -1,4 +1,4 @@
-package com.edu.domain.entity.category;
+package com.edu.domain.model.dto;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

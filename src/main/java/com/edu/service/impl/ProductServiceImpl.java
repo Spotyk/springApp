@@ -1,6 +1,6 @@
 package com.edu.service.impl;
 
-import com.edu.domain.entity.category.Category;
+import com.edu.domain.model.dto.Category;
 import com.edu.domain.entity.Product;
 import com.edu.domain.model.admin.ProductCreationModel;
 import com.edu.domain.model.admin.ProductUpdateModel;

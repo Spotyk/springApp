@@ -16,7 +16,13 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="category-addon">Category Name:</span>
             </div>
-            <input type="text" class="form-control" name="updatedCategoryName">
+            <#if path == "/updateCategory">
+                <input type="text" class="form-control" name="updatedCategoryName">
+           <#else>
+                  <input type="text" class="form-control" name="categoryName">
+
+            </#if>
+
         </div>
         <#if path == "/updateCategory">
             <input class="btn btn-primary" type="submit" value="Update Category">

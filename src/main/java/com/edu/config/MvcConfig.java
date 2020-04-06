@@ -1,6 +1,6 @@
 package com.edu.config;
 
-import com.edu.interceptor.InterceptorHandler;
+import com.edu.interceptor.LocalizationInterceptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -11,13 +11,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
 
+    private final LocalizationInterceptor localization;
     @Value("${upload.path}")
     private String uploadPath;
 
-    private InterceptorHandler interceptorHandler;
-
-    public MvcConfig(final InterceptorHandler interceptorHandler) {
-        this.interceptorHandler = interceptorHandler;
+    public MvcConfig(final LocalizationInterceptor localization) {
+        this.localization = localization;
     }
 
     @Override
@@ -35,6 +34,6 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(interceptorHandler);
+        registry.addInterceptor(localization.localeChangeInterceptor());
     }
 }

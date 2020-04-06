@@ -6,10 +6,13 @@ import com.edu.domain.entity.Role;
 import com.edu.domain.model.OrderStatusModel;
 import com.edu.domain.model.admin.CategoryCreateModel;
 import com.edu.domain.model.admin.CategoryUpdateModel;
+import com.edu.domain.model.admin.LanguageCreateModel;
+import com.edu.domain.model.admin.LanguageUpdateModel;
 import com.edu.domain.model.admin.ProductCreationModel;
 import com.edu.domain.model.admin.ProductUpdateModel;
 import com.edu.domain.model.admin.UserUpdateForm;
 import com.edu.domain.model.impl.RegistrationFormUserModel;
+import com.edu.service.LanguageService;
 import com.edu.service.OrderService;
 import com.edu.service.ProductService;
 import com.edu.service.UserService;
@@ -36,18 +39,21 @@ public class AdminController {
 
     private final UserService userService;
 
+    private final LanguageService languageService;
+
     private final CategoryServiceImpl categoryService;
 
     private final ProductService productService;
 
     private final OrderService orderService;
 
-    public AdminController(final UserService userService, final CategoryServiceImpl categoryService, final ProductService productService,
+    public AdminController(final LanguageService languageService, final UserService userService, final CategoryServiceImpl categoryService, final ProductService productService,
                            final OrderService orderService) {
         this.userService = userService;
         this.categoryService = categoryService;
         this.productService = productService;
         this.orderService = orderService;
+        this.languageService = languageService;
     }
 
     @GetMapping("/adminPanel")
@@ -87,9 +93,24 @@ public class AdminController {
         return "showProducts";
     }
 
+    @GetMapping("/languageCreationPage")
+    public String langCreatePage() {
+        return "languageCreationPage";
+    }
+
+    @GetMapping("/languageUpdatePage")
+    public String langUpdatePage() {
+        return "languageUpdatePage";
+    }
+
     @GetMapping("/getCategories")
     public ResponseEntity<?> getCategories() {
         return ResponseEntity.ok(categoryService.getAllCategories());
+    }
+
+    @GetMapping("/getLanguages")
+    public ResponseEntity<?> getLanguages() {
+        return ResponseEntity.ok(languageService.getAllLanguages());
     }
 
     @GetMapping("/showOrders")
@@ -102,28 +123,6 @@ public class AdminController {
         }
         model.addAttribute("orders", orders);
         return "showOrders";
-    }
-
-    @PostMapping("/createProduct")
-    public String createProduct(
-            @Valid ProductCreationModel productCreationModel,
-            BindingResult bindingResult,
-            Model model) {
-
-        if (bindingResult.hasErrors()) {
-            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
-            model.mergeAttributes(errors);
-        }
-
-        try {
-            if (!productService.addProduct(productCreationModel)) {
-                model.addAttribute("ProductNameError", "Product or Categiry Name not correct");
-            }
-        } catch (IOException e) {
-            model.addAttribute("FileError", "Something went wrong with file.");
-        }
-
-        return "productCreationPage";
     }
 
     @GetMapping("/updateProduct/{productId}")
@@ -151,6 +150,29 @@ public class AdminController {
         return "showProducts";
     }
 
+    @PostMapping("/createProduct")
+    public String createProduct(
+            @Valid ProductCreationModel productCreationModel,
+            BindingResult bindingResult,
+            Model model) {
+
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
+            model.mergeAttributes(errors);
+        }
+
+        try {
+            if (!productService.addProduct(productCreationModel)) {
+                model.addAttribute("ProductNameError", "Product or Categiry Name not correct");
+            }
+        } catch (IOException e) {
+            model.addAttribute("FileError", "Something went wrong with file.");
+        }
+
+        return "productCreationPage";
+    }
+
+
     @PostMapping("/createCategory")
     public String createCategory(
             @Valid CategoryCreateModel categoryCreateModel,
@@ -174,6 +196,20 @@ public class AdminController {
         userService.updateUserByAdmin(updateForm);
 
         return "users";
+    }
+
+    @PostMapping("/createLanguage")
+    public String createLanguage(LanguageCreateModel model) {
+        languageService.addLanguage(model);
+
+        return "adminPanel";
+    }
+
+    @PostMapping("/updateLanguage")
+    public String updateLanguage(LanguageUpdateModel model) {
+        languageService.updateLanguage(model);
+
+        return "adminPanel";
     }
 
     @PostMapping("/changeOrderStatus")

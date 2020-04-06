@@ -1,6 +1,6 @@
 package com.edu.domain.entity;
 
-import com.edu.domain.entity.category.Category;
+import com.edu.domain.model.dto.Category;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
