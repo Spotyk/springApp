@@ -1,10 +1,11 @@
 package com.edu.controller;
 
-import com.edu.domain.entity.Product;
 import com.edu.domain.entity.User;
+import com.edu.domain.entity.product.ProductEntity;
 import com.edu.service.OrderDetailsService;
 import com.edu.service.OrderService;
 import com.edu.service.ProductService;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -40,7 +41,7 @@ public class CartController {
 
     @GetMapping("/getItemsById")
     public ResponseEntity<?> getCartItemsById(@RequestParam(name = "items[]") Long[] ids) {
-        return ResponseEntity.ok(productService.getProductsById(convertToSetFromArray(ids)));
+        return ResponseEntity.ok(productService.getProductsById(convertToSetFromArray(ids), LocaleContextHolder.getLocale().getLanguage()));
     }
 
     @PostMapping("/createOrder")
@@ -58,8 +59,8 @@ public class CartController {
         return new HashSet<>(Arrays.asList(ids));
     }
 
-    private Map<Product, Long> countProductQuantity(Long[] ids) {
-        Map<Product, Long> productMap = new HashMap<>();
+    private Map<ProductEntity, Long> countProductQuantity(Long[] ids) {
+        Map<ProductEntity, Long> productMap = new HashMap<>();
 
         for (Long productId : convertToSetFromArray(ids)) {
             long count = 0;

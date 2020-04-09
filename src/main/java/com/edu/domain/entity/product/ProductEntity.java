@@ -1,6 +1,6 @@
-package com.edu.domain.entity;
+package com.edu.domain.entity.product;
 
-import com.edu.domain.model.dto.Category;
+import com.edu.domain.entity.category.CategoryEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Product {
+public class ProductEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,11 +20,7 @@ public class Product {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
-    private Category category;
-
-    private String name;
-
-    private String description;
+    private CategoryEntity category;
 
     @Column(name = "quantity")
     private int quantity;
@@ -35,14 +31,6 @@ public class Product {
     @Column(name = "imgPath", columnDefinition = "text")
     private String imgPath;
 
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
     public Long getId() {
         return id;
     }
@@ -51,20 +39,12 @@ public class Product {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public CategoryEntity getCategory() {
+        return category;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void setCategory(CategoryEntity category) {
+        this.category = category;
     }
 
     public int getQuantity() {

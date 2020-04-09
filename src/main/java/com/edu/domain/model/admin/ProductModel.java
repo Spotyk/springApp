@@ -1,13 +1,11 @@
 package com.edu.domain.model.admin;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class ProductUpdateModel {
+public class ProductModel {
 
     @NotNull
     private Long id;
@@ -40,7 +38,7 @@ public class ProductUpdateModel {
     @Max(Integer.MAX_VALUE)
     private int price;
 
-    private MultipartFile productImg;
+    private String productImg;
 
     public Long getId() {
         return id;
@@ -106,11 +104,11 @@ public class ProductUpdateModel {
         this.price = price;
     }
 
-    public MultipartFile getProductImg() {
+    public String getProductImg() {
         return productImg;
     }
 
-    public void setProductImg(MultipartFile productImg) {
+    public void setProductImg(String productImg) {
         this.productImg = productImg;
     }
 }

@@ -9,7 +9,7 @@ public class LocalizationInterceptor {
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor() {
         LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
-        lci.setParamName("lang");
+        lci.setParamName("language");
         return lci;
     }
 }

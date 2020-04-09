@@ -11,5 +11,7 @@ public interface LanguageService {
 
     boolean updateLanguage(LanguageUpdateModel model);
 
+    Long countLanguages();
+
     List<Language> getAllLanguages();
 }

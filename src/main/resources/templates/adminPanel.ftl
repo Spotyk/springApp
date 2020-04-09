@@ -1,18 +1,19 @@
 <#import "parts/common.ftl" as common>
 <#import "parts/security.ftl" as sec>
+<#import "/spring.ftl" as spring/>
 
 <@common.page>
-    <a class="btn btn-info" href="/users">Show users</a>
-    <a class="btn btn-info" href="/showProducts">Show products</a>
-    <a class="btn btn-info" href="/categoryCreationPage">Create Category</a>
-    <a class="btn btn-info" href="/categoryUpdatePage">Update Category</a>
-    <a class="btn btn-info" href="/productCreationPage">Create Product</a>
-    <a class="btn btn-info" href="/showOrders">Show orders</a>
-    <a class="btn btn-info" href="/languageCreationPage">Create Language</a>
-    <a class="btn btn-info" href="/languageUpdatePage">Update Language</a>
+    <a class="btn btn-info" href="/users"><@spring.message "show"/> <@spring.message "users"/></a>
+    <a class="btn btn-info" href="/showProducts"><@spring.message "show"/> <@spring.message "products"/></a>
+    <a class="btn btn-info" href="/categoryCreationPage"><@spring.message "create"/> <@spring.message "category"/></a>
+    <a class="btn btn-info" href="/categoryUpdatePage"><@spring.message "update"/> <@spring.message "category"/></a>
+    <a class="btn btn-info" href="/productCreationPage"><@spring.message "create"/> <@spring.message "product"/></a>
+    <a class="btn btn-info" href="/showOrders"><@spring.message "show"/> <@spring.message "orders"/></a>
+    <a class="btn btn-info" href="/languageCreationPage"><@spring.message "create"/> <@spring.message "language"/></a>
+    <a class="btn btn-info" href="/languageUpdatePage"><@spring.message "update"/> <@spring.message "language"/></a>
 
     <#if sec.role?? && sec.role?seq_contains("ADMIN")>
-        <a class="btn btn-info" href="/addAdmin">addAdmin</a>
-        <a class="btn btn-info" href="/addManager">addManager</a>
+        <a class="btn btn-info" href="/addAdmin"><@spring.message "create"/>Admin</a>
+        <a class="btn btn-info" href="/addManager"><@spring.message "create"/>Manager</a>
     </#if>
 </@common.page>

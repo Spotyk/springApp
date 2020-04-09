@@ -5,10 +5,10 @@ var host = window.location.hostname;
 var port = window.location.port;
 
 $(document).ready(function() {
-    if ( $(".product-category-list").length == 1) {
+    if ($(".product-category-list").length == 1) {
         var $categoryList = $(".product-category-list");
         $categoryList.length = 0;
-        getCategories("http://localhost:8080/getCategories").statusCode({
+        getByUrl("http://localhost:8080/getCategories").statusCode({
             400: function() {
                 console.log("success");
             },
@@ -23,7 +23,7 @@ $(document).ready(function() {
     }
     if ($(".menu").length == 1) {
 
-        getCategories("getAllCategories").statusCode({
+        getByUrl("getAllCategories").statusCode({
             400: function() {
                 console.log("success");
             },
@@ -37,92 +37,146 @@ $(document).ready(function() {
     }
 
     if ($(".product-list").children().length < 1) {
-        getProducts("/getAllProducts").statusCode({
+        getByUrl("/getAllProducts").statusCode({
             400: function() {
                 console.log("success");
             },
             200: function(data) {
                 categoryList = data;
-                if(window.location.href === "http://localhost:8080/showProducts"){
+                if (window.location.href === "http://localhost:8080/showProducts") {
+                    getByUrl("http://localhost:8080/getCurrentLanguage").statusCode({
+
+                        200: function(lang) {
+                            if (lang == "ru") {
                                 for (index in data) {
                                     $(".product-list").append(`<div class="flex-item">
-                                                                   <div class="card" style="width: 18rem;">
-                                                                     <img src="img/${data[index].imgPath}" class="card-img-top" alt="...">
-                                                                     <div class="card-body">
-                                                                       <h5 class="card-title">Name: ${data[index].name}</h5>
-                                                                       <p class="card-text">Description: ${data[index].description}</p>
-                                                                       <p class="card-text">Price: ${data[index].price}</p>
-                                                                       <a href="#" class="btn btn-primary">Buy</a>
-                                                                       <a href="/updateProduct/${data[index].id}" class="btn btn-primary">Update</a>
-                                                                     </div>
-                                                                   </div>
-                                                               </div>`);
+                                                                               <div class="card" style="width: 18rem;">
+                                                                                 <img src="img/${data[index].imgPath}" class="card-img-top" alt="...">
+                                                                                 <div class="card-body">
+                                                                                   <h5 class="card-title">Имя: ${data[index].name}</h5>
+                                                                                   <p class="card-text">Описание: ${data[index].description}</p>
+                                                                                   <p class="card-text">Цена: ${data[index].price}</p>
+                                                                                   <a href="#" class="btn btn-primary">Купить</a>
+                                                                                   <a href="/updateProduct/${data[index].id}" class="btn btn-primary">Обновить</a>
+                                                                                 </div>
+                                                                               </div>
+                                                                           </div>`);
                                 }
-                }else{
-                for (index in data) {
-                    $(".product-list").append(`<div class="flex-item">
-                                                   <div class="card" style="width: 18rem;">
-                                                     <img src="img/${data[index].imgPath}" class="card-img-top" alt="...">
-                                                     <div class="card-body">
-                                                       <h5 class="card-title">Name: ${data[index].name}</h5>
-                                                       <p class="card-text">Description: ${data[index].description}</p>
-                                                       <p class="card-text">Price: ${data[index].price}</p>
-                                                       <a href="#" class="btn btn-primary" onclick="addToCart(${data[index].id})">Buy</a>
-                                                     </div>
-                                                   </div>
-                                               </div>`);
-                }
+                            } else {
+                                for (index in data) {
+                                    $(".product-list").append(`<div class="flex-item">
+                                                               <div class="card" style="width: 18rem;">
+                                                                 <img src="img/${data[index].imgPath}" class="card-img-top" alt="...">
+                                                                 <div class="card-body">
+                                                                   <h5 class="card-title">Name: ${data[index].name}</h5>
+                                                                   <p class="card-text">Description: ${data[index].description}</p>
+                                                                   <p class="card-text">Price: ${data[index].price}</p>
+                                                                   <a href="#" class="btn btn-primary">Buy</a>
+                                                                   <a href="/updateProduct/${data[index].id}" class="btn btn-primary">Update</a>
+                                                                 </div>
+                                                               </div>
+                                                           </div>`);
+                                }
+                            }
+                        }
+                    });
 
-            }
+                } else {
+                    getByUrl("http://localhost:8080/getCurrentLanguage").statusCode({
+                        200: function(lang) {
+                            if (lang == "ru") {
+                                for (index in data) {
+                                    $(".product-list").append(`<div class="flex-item">
+                                               <div class="card" style="width: 18rem;">
+                                                 <img src="img/${data[index].imgPath}" class="card-img-top" alt="...">
+                                                 <div class="card-body">
+                                                   <h5 class="card-title">Имя: ${data[index].name}</h5>
+                                                   <p class="card-text">Описание: ${data[index].description}</p>
+                                                   <p class="card-text">Цена: ${data[index].price}</p>
+                                                   <a href="#" class="btn btn-primary" onclick="addToCart(${data[index].id})">Купить</a>
+                                                 </div>
+                                               </div>
+                                           </div>`);
+                                }
+                            } else {
+                                for (index in data) {
+                                    $(".product-list").append(`<div class="flex-item">
+                                                               <div class="card" style="width: 18rem;">
+                                                                 <img src="img/${data[index].imgPath}" class="card-img-top" alt="...">
+                                                                 <div class="card-body">
+                                                                   <h5 class="card-title">Name: ${data[index].name}</h5>
+                                                                   <p class="card-text">Description: ${data[index].description}</p>
+                                                                   <p class="card-text">Price: ${data[index].price}</p>
+                                                                   <a href="#" class="btn btn-primary" onclick="addToCart(${data[index].id})">Buy</a>
+                                                                 </div>
+                                                               </div>
+                                                           </div>`);
+                                }
+                            }
+                        }
+
+                    });
+                }
             }
         });
-    }
 
+    }
 });
 
-function getCategories(url) {
+function getByUrl(url) {
     return $.ajax({
         url: url,
         type: 'GET',
         headers: { 'X-XSRF-TOKEN': csrfToken },
-    })
-}
-
-function getProducts(url) {
-    return $.ajax({
-        url: url,
-        type: 'GET',
-        headers: { 'X-XSRF-TOKEN': csrfToken },
-    })
+    });
 }
 
 function getProductsByCategoryName(event) {
-    //clean all products and add new
     var categoryName = $(event.target).text();
     $(".product-list").empty();
     $.ajax({
         url: "/category",
         type: 'GET',
         headers: { 'X-XSRF-TOKEN': csrfToken },
-        data: {name:categoryName}
+        data: { name: categoryName }
     }).statusCode({
         400: function() {
             console.log("success");
         },
         200: function(data) {
-            for (index in data) {
-                $(".product-list").append(`<div class="flex-item">
+            getByUrl("http://localhost:8080/getCurrentLanguage").statusCode({
+                200: function(lang) {
+                    if (lang == "ru") {
+                        for (index in data) {
+                            $(".product-list").append(`<div class="flex-item">
                                                <div class="card" style="width: 18rem;">
                                                  <img src="img/${data[index].imgPath}" class="card-img-top" alt="...">
                                                  <div class="card-body">
-                                                   <h5 class="card-title">Name: ${data[index].name}</h5>
-                                                   <p class="card-text">Description: ${data[index].description}</p>
-                                                   <p class="card-text">Price: ${data[index].price}</p>
-                                                   <a href="#" class="btn btn-primary">Buy</a>
+                                                   <h5 class="card-title">Имя: ${data[index].name}</h5>
+                                                   <p class="card-text">Описание: ${data[index].description}</p>
+                                                   <p class="card-text">Цена: ${data[index].price}</p>
+                                                   <a href="#" class="btn btn-primary">Купить</a>
                                                  </div>
                                                </div>
                                            </div>`);
-            }
+                        }
+                    } else {
+                        for (index in data) {
+                            $(".product-list").append(`<div class="flex-item">
+                                                           <div class="card" style="width: 18rem;">
+                                                             <img src="img/${data[index].imgPath}" class="card-img-top" alt="...">
+                                                             <div class="card-body">
+                                                               <h5 class="card-title">Name: ${data[index].name}</h5>
+                                                               <p class="card-text">Description: ${data[index].description}</p>
+                                                               <p class="card-text">Price: ${data[index].price}</p>
+                                                               <a href="#" class="btn btn-primary">Buy</a>
+                                                             </div>
+                                                           </div>
+                                                       </div>`);
+                        }
+                    }
+                }
+            });
         }
     });
 }

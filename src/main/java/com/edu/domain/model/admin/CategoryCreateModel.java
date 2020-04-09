@@ -7,13 +7,25 @@ public class CategoryCreateModel {
 
     @NotNull
     @Size(min = 2, max = 50, message = "Category name should not be less than 2 symbols and should`nt be longer than 50")
-    private String categoryName;
+    private String categoryNameRu;
 
-    public String getCategoryName() {
-        return categoryName;
+    @NotNull
+    @Size(min = 2, max = 50, message = "Category name should not be less than 2 symbols and should`nt be longer than 50")
+    private String categoryNameEn;
+
+    public String getCategoryNameRu() {
+        return categoryNameRu;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setCategoryNameRu(String categoryNameRu) {
+        this.categoryNameRu = categoryNameRu;
+    }
+
+    public String getCategoryNameEn() {
+        return categoryNameEn;
+    }
+
+    public void setCategoryNameEn(String categoryNameEn) {
+        this.categoryNameEn = categoryNameEn;
     }
 }

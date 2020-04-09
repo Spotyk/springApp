@@ -36,6 +36,7 @@ function showCartItems(){
 
                                     var totalAmount = 0;
                                     for (index in data) {
+
                                     let quantity = countItemsInStorage(data[index].id);
                                     let sum = data[index].price * quantity;
                                         $(cartSelector).append(`<tr>
@@ -47,6 +48,7 @@ function showCartItems(){
                                                 </tr>`);
                                     totalAmount += sum;
                                     }
+
                                     $(cartSelector).append(`
                                                  <td></td>
                                                  <td></td>

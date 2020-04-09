@@ -1,5 +1,7 @@
 package com.edu.domain.entity;
 
+import com.edu.domain.entity.product.ProductEntity;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -22,7 +24,7 @@ public class OrderDetails {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
-    private Product product;
+    private ProductEntity product;
 
     @Column(name = "quantity")
     private Long quantity;
@@ -43,11 +45,11 @@ public class OrderDetails {
         this.order = order;
     }
 
-    public Product getProduct() {
+    public ProductEntity getProduct() {
         return product;
     }
 
-    public void setProduct(Product product) {
+    public void setProduct(ProductEntity product) {
         this.product = product;
     }
 

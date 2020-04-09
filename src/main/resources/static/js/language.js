@@ -3,7 +3,7 @@ var LANGUAGES_SELECTOR = ".languages";
 
 $(document).ready(function() {
 if($(LANGUAGE_LIST_SELECTOR).children().length < 1){
-        getByUrl("getLanguages").statusCode({
+        getByUrl("http://localhost:8080/getLanguages").statusCode({
             400: function() {
                 console.log("success");
             },
@@ -16,8 +16,8 @@ if($(LANGUAGE_LIST_SELECTOR).children().length < 1){
         });
 }
 
-if($(LANGUAGES_SELECTOR).children().length < 1){
-        getByUrl("getAllLanguages").statusCode({
+if($(LANGUAGES_SELECTOR).children().length < 2){
+        getByUrl("http://localhost:8080/getAllLanguages").statusCode({
             400: function() {
                 console.log("success");
             },
@@ -38,4 +38,10 @@ function getByUrl(url) {
         type: 'GET',
         headers: { 'X-XSRF-TOKEN': csrfToken },
     })
+}
+
+function changeLanguage(){
+    var lang = $(LANGUAGES_SELECTOR).val();
+    getByUrl(`/?language=${lang}` );
+    document.location.reload(true);
 }

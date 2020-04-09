@@ -22,11 +22,22 @@ function getOrderDetails(event,id){
 
                                                          var totalAmount = 0;
                                                          for (index in data) {
-                                                             $currentOrderDetails.append(`<tr>
-                                                             <td> ${data[index].product.name}</td>
-                                                             <td>${data[index].quantity} </td>
-                                                             <td>${data[index].product.price}</td>
-                                                                     </tr>`);
+                                                             $.ajax({
+                                                                                url: "/getProductNameById",
+                                                                                type: 'GET',
+                                                                                data:{productId:data[index].product.id},
+                                                                                headers: { 'X-XSRF-TOKEN': csrfToken },
+                                                                            }).statusCode({
+
+                                                                            200:function(prod){
+                                                                             $currentOrderDetails.append(`<tr>
+                                                                                                         <td> ${prod.name}</td>
+                                                                                                         <td>${data[index].quantity} </td>
+                                                                                                         <td>${data[index].product.price}</td>
+                                                                                                                 </tr>`);
+                                                                            }
+                                                                            });
+
                                                          }
                                                          }});
 }

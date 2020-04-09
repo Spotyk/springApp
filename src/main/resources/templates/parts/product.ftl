@@ -6,20 +6,33 @@
         <div class="mb-3">
             <label>Category</label>
             <select class="custom-select product-category-list" name="categoryName">
-            <option selected value="${(currentProduct.category.name)!}">${(currentProduct.category.name)!}</option>
+            <option selected value="${(currentProduct.categoryName)!}">${(currentProduct.categoryName)!}</option>
             </select>
         </div>
 
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-                <span class="input-group-text" id="product-addon">Product Name:</span>
+                <span class="input-group-text" id="product-addon">Product Name Ru:</span>
             </div>
-            <input type="text" class="form-control" name="productName" value="${(currentProduct.name)!}">
+            <input type="text" class="form-control" name="productNameRu" value="${(currentProduct.productNameRu)!}">
+        </div>
+                <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="product-addon">Product Name En:</span>
+            </div>
+            <input type="text" class="form-control" name="productNameEn" value="${(currentProduct.productNameEn)!}">
         </div>
 
   <div class="mb-3">
-    <label for="validationTextarea">Description</label>
-    <textarea name="description" class="form-control" id="validationTextarea" placeholder="Required example textarea" required>${(currentProduct.description)!}</textarea>
+    <label for="validationTextarea">Description Ru</label>
+    <textarea name="descriptionRu" class="form-control" id="validationTextarea" placeholder="Required example textarea" required>${(currentProduct.descriptionRu)!}</textarea>
+    <div class="invalid-feedback">
+        Please enter a message in the textarea.
+    </div>
+  </div>
+    <div class="mb-3">
+    <label for="validationTextarea">Description En</label>
+    <textarea name="descriptionEn" class="form-control" id="validationTextarea" placeholder="Required example textarea" required>${(currentProduct.descriptionEn)!}</textarea>
     <div class="invalid-feedback">
         Please enter a message in the textarea.
     </div>
@@ -47,7 +60,7 @@
         </div>
 
         <#if path=="/updateProduct">
-        <img class = "user-avatar" src = "http://localhost:8080/img/${(currentProduct.imgPath)!}">
+        <img class = "user-avatar" src = "http://localhost:8080/img/${(currentProduct.productImg)!}">
         <input class="btn btn-primary" type="submit" value="Update Product">
         <#else>
         <input class="btn btn-primary" type="submit" value="Create Product">

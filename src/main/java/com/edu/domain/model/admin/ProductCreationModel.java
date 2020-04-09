@@ -11,14 +11,21 @@ public class ProductCreationModel {
 
     @NotNull
     @Size(min = 2, max = 50, message = "Product name should not be less than 2 symbols and should`nt be longer than 50")
-    private String productName;
+    private String productNameRu;
+
+    @NotNull
+    @Size(min = 2, max = 50, message = "Product name should not be less than 2 symbols and should`nt be longer than 50")
+    private String productNameEn;
 
     @NotNull
     @Size(min = 2, max = 50, message = "Category name should not be less than 2 symbols and should`nt be longer than 50")
     private String categoryName;
 
     @NotNull
-    private String description;
+    private String descriptionRu;
+
+    @NotNull
+    private String descriptionEn;
 
     @NotNull
     @Min(0)
@@ -33,12 +40,20 @@ public class ProductCreationModel {
     @NotNull
     private MultipartFile productImg;
 
-    public String getProductName() {
-        return productName;
+    public String getProductNameRu() {
+        return productNameRu;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setProductNameRu(String productNameRu) {
+        this.productNameRu = productNameRu;
+    }
+
+    public String getProductNameEn() {
+        return productNameEn;
+    }
+
+    public void setProductNameEn(String productNameEn) {
+        this.productNameEn = productNameEn;
     }
 
     public String getCategoryName() {
@@ -49,12 +64,20 @@ public class ProductCreationModel {
         this.categoryName = categoryName;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDescriptionRu() {
+        return descriptionRu;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescriptionRu(String descriptionRu) {
+        this.descriptionRu = descriptionRu;
+    }
+
+    public String getDescriptionEn() {
+        return descriptionEn;
+    }
+
+    public void setDescriptionEn(String descriptionEn) {
+        this.descriptionEn = descriptionEn;
     }
 
     public int getQuantity() {

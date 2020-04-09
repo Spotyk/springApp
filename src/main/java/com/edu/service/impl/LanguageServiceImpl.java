@@ -46,6 +46,11 @@ public class LanguageServiceImpl implements LanguageService {
     }
 
     @Override
+    public Long countLanguages() {
+        return languageRepository.count();
+    }
+
+    @Override
     public List<Language> getAllLanguages() {
         return languageRepository.findAll();
     }

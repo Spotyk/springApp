@@ -1,8 +1,8 @@
 package com.edu.controller;
 
 import com.edu.domain.entity.Order;
-import com.edu.domain.entity.Product;
 import com.edu.domain.entity.Role;
+import com.edu.domain.entity.product.ProductEntity;
 import com.edu.domain.model.OrderStatusModel;
 import com.edu.domain.model.admin.CategoryCreateModel;
 import com.edu.domain.model.admin.CategoryUpdateModel;
@@ -17,6 +17,7 @@ import com.edu.service.OrderService;
 import com.edu.service.ProductService;
 import com.edu.service.UserService;
 import com.edu.service.impl.CategoryServiceImpl;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -105,7 +106,12 @@ public class AdminController {
 
     @GetMapping("/getCategories")
     public ResponseEntity<?> getCategories() {
-        return ResponseEntity.ok(categoryService.getAllCategories());
+        return ResponseEntity.ok(categoryService.getAllCategories(LocaleContextHolder.getLocale().getLanguage()));
+    }
+
+    @GetMapping("/countLanguages")
+    public ResponseEntity<?> countLanguages() {
+        return ResponseEntity.ok(languageService.countLanguages());
     }
 
     @GetMapping("/getLanguages")
@@ -126,8 +132,8 @@ public class AdminController {
     }
 
     @GetMapping("/updateProduct/{productId}")
-    public String editProductPage(@PathVariable Product productId, Model model) {
-        model.addAttribute("currentProduct", productId);
+    public String editProductPage(@PathVariable ProductEntity productId, Model model) {
+        model.addAttribute("currentProduct", productService.getProductEntityByProductIdAndLanguageName(productId.getId(), LocaleContextHolder.getLocale().getLanguage()));
 
         return "productUpdatePage";
     }

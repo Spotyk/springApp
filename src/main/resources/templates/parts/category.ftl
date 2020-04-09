@@ -19,8 +19,8 @@
             <#if path == "/updateCategory">
                 <input type="text" class="form-control" name="updatedCategoryName">
            <#else>
-                  <input type="text" class="form-control" name="categoryName">
-
+                  RU<input type="text" class="form-control" name="categoryNameRu">
+                  EN<input type="text" class="form-control" name="categoryNameEn">
             </#if>
 
         </div>

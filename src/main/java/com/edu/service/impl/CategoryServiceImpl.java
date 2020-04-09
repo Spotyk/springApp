@@ -1,41 +1,66 @@
 package com.edu.service.impl;
 
-import com.edu.domain.model.dto.Category;
+import com.edu.domain.entity.Language;
+import com.edu.domain.entity.category.CategoryEntity;
+import com.edu.domain.entity.category.CategoryLocalization;
 import com.edu.domain.model.admin.CategoryCreateModel;
 import com.edu.domain.model.admin.CategoryUpdateModel;
 import com.edu.domain.model.admin.ProductCreationModel;
+import com.edu.domain.model.dto.Category;
+import com.edu.repository.CategoryEntityRepository;
 import com.edu.repository.CategoryRepository;
+import com.edu.repository.LanguageRepository;
 import com.edu.service.CategoryService;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final CategoryEntityRepository categoryEntityRepository;
+    private final ModelMapper modelMapper;
+    private final LanguageRepository languageRepository;
 
-    public CategoryServiceImpl(final CategoryRepository categoryRepository) {
+    public CategoryServiceImpl(final ModelMapper modelMapper, final CategoryRepository categoryRepository, final LanguageRepository languageRepository, final CategoryEntityRepository categoryEntityRepository) {
         this.categoryRepository = categoryRepository;
+        this.languageRepository = languageRepository;
+        this.categoryEntityRepository = categoryEntityRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
-    public Category findByName(String name) {
+    public CategoryLocalization findByName(String name) {
         return categoryRepository.findByName(name);
     }
 
     @Override
     public boolean addCategory(CategoryCreateModel categoryCreateModel) {
-        String categoryName = categoryCreateModel.getCategoryName();
+        String categoryNameEn = categoryCreateModel.getCategoryNameEn();
+        String categoryNameRu = categoryCreateModel.getCategoryNameRu();
 
-        if (isCategoryNameExists(categoryName)) {
+        if (isCategoryNameExists(categoryNameEn) || isCategoryNameExists(categoryNameRu)) {
             return false;
         }
+        CategoryEntity categoryEntity = new CategoryEntity();
+        categoryEntityRepository.save(categoryEntity);
 
-        Category newCategory = new Category();
-        newCategory.setName(categoryName);
+        CategoryLocalization categoryLocalizationRu = new CategoryLocalization();
+        categoryLocalizationRu.setName(categoryNameRu);
+        categoryLocalizationRu.setLanguage(languageRepository.findByName("ru"));
+        categoryLocalizationRu.setCategoryEntity(categoryEntity);
 
-        categoryRepository.save(newCategory);
+        CategoryLocalization categoryLocalizationEn = new CategoryLocalization();
+        categoryLocalizationEn.setName(categoryNameEn);
+        categoryLocalizationEn.setLanguage(languageRepository.findByName("en"));
+        categoryLocalizationEn.setCategoryEntity(categoryEntity);
+
+
+        categoryRepository.save(categoryLocalizationRu);
+        categoryRepository.save(categoryLocalizationEn);
         return true;
     }
 
@@ -48,7 +73,7 @@ public class CategoryServiceImpl implements CategoryService {
             return false;
         }
 
-        Category updateCategory = findByName(categoryOldName);
+        CategoryLocalization updateCategory = findByName(categoryOldName);
 
         if (updateCategory == null) {
             return false;
@@ -61,16 +86,23 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<Category> getAllCategories() {
-        return categoryRepository.findAll();
+    public List<Category> getAllCategories(String languageName) {
+        Language language = languageRepository.findByName(languageName);
+        return categoryRepository.findAllByLanguageId(language.getId())
+                .stream().map(this::convertToCategory)
+                .collect(Collectors.toList());
+    }
+
+    private Category convertToCategory(CategoryLocalization categoryLocalization) {
+        return modelMapper.map(categoryLocalization, Category.class);
     }
 
     @Override
     public boolean addProduct(ProductCreationModel productCreationModel) {
-        Category currentCategory = findByName(productCreationModel.getCategoryName());
-        if (currentCategory == null) {
-            return false;
-        }
+//        Category currentCategory = findByName(productCreationModel.getCategoryName());
+//        if (currentCategory == null) {
+//            return false;
+//        }
 
         return true;
     }

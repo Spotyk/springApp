@@ -1,9 +1,16 @@
 package com.edu.repository;
 
-import com.edu.domain.model.dto.Category;
+import com.edu.domain.entity.category.CategoryEntity;
+import com.edu.domain.entity.category.CategoryLocalization;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CategoryRepository extends JpaRepository<Category, Long> {
+import java.util.List;
 
-    Category findByName(String name);
+public interface CategoryRepository extends JpaRepository<CategoryLocalization, Long> {
+
+    CategoryLocalization findByName(String name);
+
+    CategoryLocalization findByCategoryEntityAndLanguageId(CategoryEntity category, Long languageId);
+
+    List<CategoryLocalization> findAllByLanguageId(Long id);
 }

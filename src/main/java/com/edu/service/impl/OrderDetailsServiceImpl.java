@@ -1,7 +1,7 @@
 package com.edu.service.impl;
 
 import com.edu.domain.entity.OrderDetails;
-import com.edu.domain.entity.Product;
+import com.edu.domain.entity.product.ProductEntity;
 import com.edu.repository.CategoryRepository;
 import com.edu.repository.OrderDetailsRepository;
 import com.edu.repository.OrderRepository;
@@ -32,8 +32,8 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
     }
 
     @Override
-    public boolean createOrderDetails(Long orderId, Map<Product, Long> products) {
-        for (Entry<Product, Long> item : products.entrySet()) {
+    public boolean createOrderDetails(Long orderId, Map<ProductEntity, Long> products) {
+        for (Entry<ProductEntity, Long> item : products.entrySet()) {
             createOrderDetail(item, orderId);
         }
         return true;
@@ -44,7 +44,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
         return orderDetailsRepository.findAllByOrderId(id);
     }
 
-    private void createOrderDetail(Entry<Product, Long> item, Long orderid) {
+    private void createOrderDetail(Entry<ProductEntity, Long> item, Long orderid) {
         OrderDetails details = new OrderDetails();
 
         details.setProduct(item.getKey());
