@@ -97,16 +97,6 @@ public class CategoryServiceImpl implements CategoryService {
         return modelMapper.map(categoryLocalization, Category.class);
     }
 
-    @Override
-    public boolean addProduct(ProductCreationModel productCreationModel) {
-//        Category currentCategory = findByName(productCreationModel.getCategoryName());
-//        if (currentCategory == null) {
-//            return false;
-//        }
-
-        return true;
-    }
-
     private boolean isCategoryNameExists(String categoryName) {
         return findByName(categoryName) != null;
     }

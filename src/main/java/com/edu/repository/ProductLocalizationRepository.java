@@ -10,7 +10,6 @@ public interface ProductLocalizationRepository extends JpaRepository<ProductLoca
 
     ProductEntity findByName(String name);
 
-//    List<ProductLocalization> findByCategoryEntityAndLanguageId(Long categoryId, Long languageId);
     ProductLocalization findByProductIdAndLanguageId(Long productId, Long languageId);
 
     List<ProductLocalization> findAllByLanguageId(Long id);

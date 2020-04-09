@@ -5,5 +5,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CategoryEntityRepository extends JpaRepository<CategoryEntity, Long> {
 
-//    CategoryLocalization findByName(String name);
 }

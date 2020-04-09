@@ -24,10 +24,7 @@ function makeAble(event){
 }
 
 function confirmValue($inputField, $button){
-    //if valid
-    //if changed
-
-    sendUpdateRequest($inputField);
+sendUpdateRequest($inputField);
 
     changeButtonText($button, 'Change');
     disableElementJQ($inputField, true);
