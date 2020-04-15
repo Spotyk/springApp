@@ -1,0 +1,19 @@
+@startuml
+class ProductLocalization {
+     id:Long
+     name:String
+     description:String
+     language:Language
+     product:ProductEntity
+     getId()
+     setId()
+     getName()
+     setName()
+     getDescription()
+     setDescription()
+     getLanguage()
+     setLanguage()
+    getProduct()
+     setProduct()
+}
+@enduml

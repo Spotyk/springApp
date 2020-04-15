@@ -1,0 +1,19 @@
+@startuml
+class Order {
+     id:Long
+     user:User
+     orderDate:LocalDate
+     status:OrderStatus
+     totalSum:Long
+     getId()
+     setId()
+     getUser()
+     setUser()
+     getOrderDate()
+     setOrderDate()
+     getStatus()
+     setStatus()
+     getTotalSum()
+     setTotalSum()
+}
+@enduml

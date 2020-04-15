@@ -1,0 +1,23 @@
+@startuml
+class User{
+	name:String
+	password:String
+	email:String
+	state:String
+	country:String
+	avatarPath:String
+	active:boolean
+	role:String
+	birthDate:Date
+	isAdmin()
+	setBirthDate()
+	getBirthDate()
+	setAvatarPath()
+	getState()
+	setState()
+	setCountry()
+	getCountry()
+	setEmail()
+	getEmail()
+}
+@enduml

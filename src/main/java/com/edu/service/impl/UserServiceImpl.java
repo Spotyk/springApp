@@ -223,9 +223,14 @@ public class UserServiceImpl implements UserService {
         userFromBd.setState(form.getState());
         userFromBd.setCountry(form.getCountry());
         userFromBd.setEmail(form.getEmail());
+        userFromBd.setActive(isActive(form.getStatus()));
 
         userRepository.save(userFromBd);
 
         return true;
+    }
+
+    private boolean isActive(String activeStatus) {
+        return activeStatus.equals("active");
     }
 }

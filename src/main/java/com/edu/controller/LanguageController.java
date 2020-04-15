@@ -23,5 +23,4 @@ public class LanguageController {
     public ResponseEntity<?> getCurrentLanguage() {
         return ResponseEntity.ok(LocaleContextHolder.getLocale().getLanguage());
     }
-
 }

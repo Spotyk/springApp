@@ -1,0 +1,16 @@
+@startuml
+class CategoryLocalization {
+      id:Long
+      name:String
+      language:Language
+      categoryEntity:CategoryEntity
+      getName()
+      setName()
+      getId()
+      setId()
+      getLanguage()
+      setLanguage()
+      getCategoryEntity()
+      setCategoryEntity()
+}
+@enduml

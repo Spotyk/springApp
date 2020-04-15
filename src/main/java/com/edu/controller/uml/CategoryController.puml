@@ -1,0 +1,7 @@
+@startuml
+ class CategoryController {
+     categoryService:CategoryService
+     CategoryController()
+    getCategories()
+ }
+@enduml

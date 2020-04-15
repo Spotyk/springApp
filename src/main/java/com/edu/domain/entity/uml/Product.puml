@@ -1,0 +1,19 @@
+@startuml
+class ProductEntity {
+	id:Long
+	category:CategoryEntity
+	quantity:int
+	price:int
+	imgPath:String
+	Long getId()
+	setId()
+	getCategory()
+	setCategory()
+	getQuantity()
+	setQuantity()
+	getPrice()
+	setPrice()
+	getImgPath()
+	setImgPath()
+}
+@enduml

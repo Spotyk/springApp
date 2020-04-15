@@ -1,0 +1,10 @@
+@startuml
+ class OrderController {
+     orderService:OrderService
+     OrderDetailsService orderDetailsService;
+     OrderController()
+     getOrderPage()
+     getOrderDetailsByOrderId()
+  	 adminChangeOrderStatus()
+}
+@enduml

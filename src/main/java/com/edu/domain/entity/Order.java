@@ -4,7 +4,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -15,7 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.time.LocalDate;
-import java.util.Set;
 
 @Entity(name = "ordr")
 public class Order {
@@ -32,10 +30,9 @@ public class Order {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate orderDate;
 
-    @ElementCollection(targetClass = OrderStatus.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "order_status", joinColumns = @JoinColumn(name = "order_id"))
     @Enumerated(EnumType.STRING)
-    private Set<OrderStatus> statusSet;
+    private OrderStatus status;
 
     @Column(name = "total_sum")
     private Long totalSum;
@@ -64,12 +61,12 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    public Set<OrderStatus> getStatusSet() {
-        return statusSet;
+    public OrderStatus getStatus() {
+        return status;
     }
 
-    public void setStatusSet(Set<OrderStatus> statusSet) {
-        this.statusSet = statusSet;
+    public void setStatus(OrderStatus status) {
+        this.status = status;
     }
 
     public Long getTotalSum() {

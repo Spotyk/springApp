@@ -12,11 +12,11 @@ import com.edu.domain.model.admin.ProductCreationModel;
 import com.edu.domain.model.admin.ProductUpdateModel;
 import com.edu.domain.model.admin.UserUpdateForm;
 import com.edu.domain.model.impl.RegistrationFormUserModel;
+import com.edu.service.CategoryService;
 import com.edu.service.LanguageService;
 import com.edu.service.OrderService;
 import com.edu.service.ProductService;
 import com.edu.service.UserService;
-import com.edu.service.impl.CategoryServiceImpl;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -42,13 +42,13 @@ public class AdminController {
 
     private final LanguageService languageService;
 
-    private final CategoryServiceImpl categoryService;
+    private final CategoryService categoryService;
 
     private final ProductService productService;
 
     private final OrderService orderService;
 
-    public AdminController(final LanguageService languageService, final UserService userService, final CategoryServiceImpl categoryService, final ProductService productService,
+    public AdminController(final LanguageService languageService, final UserService userService, final CategoryService categoryService, final ProductService productService,
                            final OrderService orderService) {
         this.userService = userService;
         this.categoryService = categoryService;

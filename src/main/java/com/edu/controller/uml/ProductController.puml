@@ -1,0 +1,9 @@
+@startuml
+ class ProductController {
+     productService:ProductService
+     ProductController()
+     getAllProducts()
+     getProductsByCategory()
+     getProductNameById()
+ }
+@enduml

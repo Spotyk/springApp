@@ -4013,10 +4013,6 @@ tbody.collapse.show {
     border-color: #80bdff
 }
 
-.custom-file-input:lang(en)~.custom-file-label::after {
-    content: "Browse"
-}
-
 .custom-file-label {
     position: absolute;
     top: 0;
@@ -4043,7 +4039,6 @@ tbody.collapse.show {
     padding: .375rem .75rem;
     line-height: 1.5;
     color: #495057;
-    content: "Browse";
     background-color: #e9ecef;
     border-left: 1px solid #ced4da;
     border-radius: 0 .25rem .25rem 0

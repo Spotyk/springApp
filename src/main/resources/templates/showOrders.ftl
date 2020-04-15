@@ -1,14 +1,15 @@
 <#import "parts/common.ftl" as common>
+<#import "/spring.ftl" as spring/>
 
 <@common.page>
 <div class="flex-container">
   <table class="table">
    <tr class="thead-dark ">
-    <th scope="col">Order №</th>
-    <th scope="col">Date</th>
-    <th scope="col">Status</th>
-    <th scope="col">Total Sum</th>
-    <th scope="col">Action</th>
+    <th scope="col"><@spring.message "order"/> №</th>
+    <th scope="col"><@spring.message "date"/></th>
+    <th scope="col"><@spring.message "status"/></th>
+    <th scope="col"><@spring.message "totalSum"/></th>
+    <th scope="col"><@spring.message "action"/></th>
    </tr>
    <#if orders??>
    <#list orders as order>
@@ -22,8 +23,17 @@
                     ${order.orderDate}
                </td>
                <td>
-                    ${order.statusSet[0]}
+                <#if order.statusSet[0] =="IN_PROGRESS">
+               <@spring.message "inProgress"/>
+               </#if>
+               <#if order.statusSet[0] =="CANCELED" >
+               <@spring.message "canceled"/>
+               </#if>
+               <#if order.statusSet[0] =="DONE" >
+               <@spring.message "done"/>
+               </#if>
                </td>
+
                <td>
                     ${order.totalSum}
                </td>
@@ -33,10 +43,10 @@
 
                     <input class="order-id" type="hidden" value="${order.id}" name="orderId"/>
                     <select name="orderStatus" class="custom-select status-select" onchange="changeStatus(event)">
-                       <option selected>Choose Status</option>
-                       <option value="CANCELED">CANCELED</option>
-                       <option value="IN_PROGRESS">IN_PROGRESS</option>
-                       <option value="DONE">DONE</option>
+                       <option selected><@spring.message "chooseStatus"/></option>
+                       <option value="CANCELED"><@spring.message "canceled"/></option>
+                       <option value="IN_PROGRESS"><@spring.message "inProgress"/></option>
+                       <option value="DONE"><@spring.message "done"/></option>
                        </select>
                </form>
               </td>

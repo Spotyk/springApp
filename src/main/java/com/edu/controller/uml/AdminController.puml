@@ -1,0 +1,36 @@
+@startuml
+ class AdminController {
+        userService:UserService
+        languageService:LanguageService
+        categoryService:CategoryService
+        productService:ProductService
+        orderService:OrderService
+      AdminController()
+       adminPanel()
+       getAllUsers()
+       getCategoryUpdatePage()
+       getCategoryCreationPage()
+       getProductCreationPage()
+       getProductUpdatePage()
+       getAllProducts()
+       langCreatePage()
+       langUpdatePage()
+       getCategories()
+       countLanguages()
+      getLanguages()
+       getOrderPage()
+       editProductPage()
+       addManager()
+       addAdmin()
+       updateProduct()
+       createProduct()
+       createCategory()
+       adminUserUpdate()
+       createLanguage()
+       adminChangeOrderStatus()
+       updateCategory()
+       createManager()
+       createAdmin()
+       addUser()
+}
+@enduml

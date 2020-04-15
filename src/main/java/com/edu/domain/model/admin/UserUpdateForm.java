@@ -19,6 +19,9 @@ public class UserUpdateForm {
     @NotNull
     private String state;
 
+    @NotNull
+    private String status;
+
     public String getUsername() {
         return username;
     }
@@ -57,5 +60,13 @@ public class UserUpdateForm {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

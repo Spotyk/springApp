@@ -4,11 +4,11 @@ localStorage.setItem('items', JSON.stringify(itemsArray));
 var localStorageData = JSON.parse(localStorage.getItem('items'));
 var cartSelector = ".cart";
 
-if($(cartSelector).length == 1){
+if ($(cartSelector).length == 1) {
     showCartItems();
 }
 
-function addToCart(event){
+function addToCart(event) {
     let product = event;
 
     itemsArray.push(product);
@@ -18,80 +18,111 @@ function addToCart(event){
 
 }
 
-function getCartItems(){
+function getCartItems() {
     return $.ajax({
-                   url: "/getItemsById",
-                   type: 'GET',
-                   data:{items:itemsArray},
-                   headers: { 'X-XSRF-TOKEN': csrfToken },
-               })
+        url: "/getItemsById",
+        type: 'GET',
+        data: { items: itemsArray },
+        headers: { 'X-XSRF-TOKEN': csrfToken },
+    })
 }
 
-function showCartItems(){
+function showCartItems() {
     getCartItems().statusCode({
-                              400: function() {
-                                  console.log("success");
-                              },
-                              200: function(data) {
+        400: function() {
+            console.log("success");
+        },
+        200: function(data) {
+            getByUrl("http://localhost:8080/getCurrentLanguage").statusCode({
+                200: function(lang) {
+                    if (lang == "ru") {
+                        var totalAmount = 0;
+                        for (index in data) {
 
-                                    var totalAmount = 0;
-                                    for (index in data) {
+                            let quantity = countItemsInStorage(data[index].id);
+                            let sum = data[index].price * quantity;
+                            $(cartSelector).append(`<tr>
+                                                                <td> ${data[index].name}</td>
+                                                                <td>${data[index].price} </td>
+                                                                <td>${quantity}</td>
+                                                                <td>${sum} </td>
+                                                                <td><button type="button" class="btn btn-outline-danger" onclick="deleteItem(event,${data[index].id})">Удалить</button> </td>
+                                                                        </tr>`);
+                            totalAmount += sum;
+                        }
 
-                                    let quantity = countItemsInStorage(data[index].id);
-                                    let sum = data[index].price * quantity;
-                                        $(cartSelector).append(`<tr>
-                                        <td> ${data[index].name}</td>
-                                        <td>${data[index].price} </td>
-                                        <td>${quantity}</td>
-                                        <td>${sum} </td>
-                                        <td><button type="button" class="btn btn-outline-danger" onclick="deleteItem(event,${data[index].id})">Delete</button> </td>
-                                                </tr>`);
-                                    totalAmount += sum;
-                                    }
+                        $(cartSelector).append(`
+                                                                         <td></td>
+                                                                         <td></td>
+                                                                         <td></td>
+                                                                         <td>
+                                                                             ${totalAmount}
+                                                                             <button type="button" class="btn btn-outline-danger" onclick="createOrder()">Создать Заказ</button>
+                                                                         </td>`)
+                    } else {
+                        var totalAmount = 0;
+                        for (index in data) {
 
-                                    $(cartSelector).append(`
-                                                 <td></td>
-                                                 <td></td>
-                                                 <td></td>
-                                                 <td>
-                                                     ${totalAmount}
-                                                     <button type="button" class="btn btn-outline-danger" onclick="createOrder()">Create Order</button>
-                                                 </td>`)
-                                    }});
-}
+                            let quantity = countItemsInStorage(data[index].id);
+                            let sum = data[index].price * quantity;
+                            $(cartSelector).append(`<tr>
+                                                                <td> ${data[index].name}</td>
+                                                                <td>${data[index].price} </td>
+                                                                <td>${quantity}</td>
+                                                                <td>${sum} </td>
+                                                                <td><button type="button" class="btn btn-outline-danger" onclick="deleteItem(event,${data[index].id})">Delete</button> </td>
+                                                                        </tr>`);
+                            totalAmount += sum;
+                        }
 
-function countItemsInStorage(itemId){
-    let countCopies = 0;
-    localStorageData.forEach(item => {
-        if(item === itemId){
-        countCopies++;
+                        $(cartSelector).append(`
+                                                                         <td></td>
+                                                                         <td></td>
+                                                                         <td></td>
+                                                                         <td>
+                                                                             ${totalAmount}
+                                                                             <button type="button" class="btn btn-outline-danger" onclick="createOrder()">Create Order</button>
+                                                                         </td>`)
+                    }
+                }
+            });
         }
     });
-        return countCopies;
 }
 
-function createOrder(){
-            $.ajax({
-                   url: "/createOrder",
-                   type: 'POST',
-                   data:{items:itemsArray},
-                   headers: { 'X-XSRF-TOKEN': csrfToken },
-               }).statusCode({
-                   400: function() {
-                       console.log("success");
-                   },
-                   200: function(data) {
-                   localStorage.clear()
-                   window.location.replace("/order")
-                         }});
+function countItemsInStorage(itemId) {
+    let countCopies = 0;
+    localStorageData.forEach(item => {
+        if (item === itemId) {
+            countCopies++;
+        }
+    });
+    return countCopies;
 }
 
-function deleteItem(event,id){
+function createOrder() {
+    $.ajax({
+        url: "/createOrder",
+        type: 'POST',
+        data: { items: itemsArray },
+        headers: { 'X-XSRF-TOKEN': csrfToken },
+    }).statusCode({
+        400: function() {
+            console.log("success");
+        },
+        200: function(data) {
+            localStorage.clear()
+            window.location.replace("/order")
+        }
+    });
+}
 
-    let newArr = itemsArray.filter(function(ele){
-           return ele != id;
-       });
-       localStorage.setItem('items', JSON.stringify(newArr))
+function deleteItem(event, id) {
+
+    let newArr = itemsArray.filter(function(ele) {
+        return ele != id;
+    });
+    localStorage.setItem('items', JSON.stringify(newArr))
     window.location.reload(true);
 
 }

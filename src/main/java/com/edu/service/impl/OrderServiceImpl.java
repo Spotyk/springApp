@@ -27,7 +27,7 @@ public class OrderServiceImpl implements OrderService {
         Order order = new Order();
         order.setUser(currentUser);
         order.setOrderDate(LocalDate.now());
-        order.setStatusSet(Collections.singleton(OrderStatus.IN_PROGRESS));
+        order.setStatus(OrderStatus.IN_PROGRESS);
 
         orderRepository.save(order);
         return order.getId();
@@ -59,9 +59,7 @@ public class OrderServiceImpl implements OrderService {
         if (order == null) {
             return false;
         }
-        Set<OrderStatus> orderStatusSet = order.getStatusSet();
-        orderStatusSet.clear();
-        orderStatusSet.add(model.getOrderStatus());
+        order.setStatus(model.getOrderStatus());
         orderRepository.save(order);
 
         return true;

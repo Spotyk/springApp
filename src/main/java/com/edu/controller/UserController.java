@@ -2,13 +2,14 @@ package com.edu.controller;
 
 import com.edu.command.UpdateCommandContainer;
 import com.edu.command.UpdateUserCommand;
+import com.edu.domain.entity.Role;
 import com.edu.domain.entity.User;
 import com.edu.domain.model.InputFieldModel;
+import com.edu.domain.model.impl.RegistrationFormUserModel;
 import com.edu.domain.model.impl.UpdateFormUserModel;
 import com.edu.service.UserService;
 import com.edu.util.UserUpdateContainerInitializer;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -136,5 +137,34 @@ public class UserController {
         }
         response.setStatus(200);
         return answer;
+    }
+
+    @GetMapping("/registration")
+    public String register() {
+        return "registration";
+    }
+
+    @PostMapping("/registration")
+    public String addUser(
+            @Valid RegistrationFormUserModel registrationFormUserModel,
+            BindingResult bindingResult,
+            Model model
+    ) throws IOException {
+        if (registrationFormUserModel.getPassword() != null && !registrationFormUserModel.getPassword().equals(registrationFormUserModel.getPassword2())) {
+            model.addAttribute("passwordError", "Passwords are different!");
+        }
+
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
+            model.mergeAttributes(errors);
+            return "registration";
+        }
+
+        if (!userService.addUser(registrationFormUserModel, Role.USER)) {
+            model.addAttribute("emailError", "Email exists!");
+            return "registration";
+        }
+
+        return "redirect:/login";
     }
 }

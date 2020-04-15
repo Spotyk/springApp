@@ -47,7 +47,15 @@ function changeStatus(event){
     let $currentForm = $currentTarget.parent();
 
     let $orderId = $currentForm.find(".order-id").val();
-    let $orderStatus = $currentForm.find(".status-select").val();
+    var $orderStatus;
+    if( $(".status-select").length >= 1){
+         $orderStatus= $currentForm.find(".status-select").val();
+    }
+    if( $(".status").length >= 1){
+        $orderStatus = "CANCELED";
+    }
+
+
 
     $.ajax({
                        url: $currentForm.attr("action"),

@@ -1,0 +1,8 @@
+@startuml
+ class LanguageController {
+      languageService:LanguageService
+      LanguageController()
+ 	  getLanguages()
+ 	  getCurrentLanguage()
+ }
+@enduml

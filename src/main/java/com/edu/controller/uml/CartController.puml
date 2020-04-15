@@ -1,0 +1,13 @@
+@startuml
+ class CartController {
+      productService:ProductService
+      orderService:OrderService
+      orderDetailsService:OrderDetailsService
+      CartController()
+       getCartPage()
+        getCartItemsById()
+       createOrder()
+       convertToSetFromArray()
+        countProductQuantity()
+}
+@enduml

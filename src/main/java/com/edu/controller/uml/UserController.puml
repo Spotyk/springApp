@@ -1,0 +1,15 @@
+@startuml
+ class UserController {
+ 	encoder:PasswordEncoder
+ 	userService:UserService
+ 	uploadPath:String
+ 	UserController()
+ 	cabinet()
+ 	getUserUpdatePage()
+ 	String updateUser()
+ 	List<String> updateUser()
+ 	updateFilePath()
+ 	register()
+ 	addUser()
+ }
+@enduml

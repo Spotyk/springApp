@@ -1,0 +1,10 @@
+@startuml
+class Language {
+     id:Long
+     name:String
+     getName()
+     setName()
+     getId()
+     setId()
+}
+@enduml

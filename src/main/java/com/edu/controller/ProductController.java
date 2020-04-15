@@ -27,9 +27,7 @@ public class ProductController {
     }
 
     @GetMapping("/getProductNameById")
-        public ResponseEntity<?> getProductNameById(@RequestParam(name = "productId") Long productId) {
-            return ResponseEntity.ok(productService.getProductByProductIdAndLanguageName(productId, LocaleContextHolder.getLocale().getLanguage()));
-        }
-
-
+    public ResponseEntity<?> getProductNameById(@RequestParam(name = "productId") Long productId) {
+        return ResponseEntity.ok(productService.getProductByProductIdAndLanguageName(productId, LocaleContextHolder.getLocale().getLanguage()));
+    }
 }

@@ -1,0 +1,7 @@
+@startuml
+ class CategoryEntity {
+      id:Long
+      getId()
+      setId()
+}
+@enduml

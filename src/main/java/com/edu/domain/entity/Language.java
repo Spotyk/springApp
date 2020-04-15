@@ -13,7 +13,7 @@ public class Language {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "name", columnDefinition = "text")
+    @Column(name = "name", length = 20)
     private String name;
 
     public String getName() {

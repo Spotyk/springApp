@@ -26,19 +26,19 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "username", columnDefinition = "text")
+    @Column(name = "username", length = 20)
     private String username;
 
-    @Column(name = "password", columnDefinition = "text")
+    @Column(name = "password", length = 200)
     private String password;
 
-    @Column(name = "email", columnDefinition = "text")
+    @Column(name = "email", length = 50)
     private String email;
 
-    @Column(name = "country", columnDefinition = "text")
+    @Column(name = "country", length = 20)
     private String country;
 
-    @Column(name = "state", columnDefinition = "text")
+    @Column(name = "state", length = 20)
     private String state;
 
     @Column(name = "avatarPath", columnDefinition = "text")
@@ -165,18 +165,3 @@ public class User implements UserDetails {
         return roles.contains(Role.ADMIN);
     }
 }
-/*
-@startuml
-class User{
-name:String
-password:String
-email:String
-state:String
-country:String
-avatarPath:String
-active:boolean
-role:String
-birthDate:Date
-}
-@enduml
- */

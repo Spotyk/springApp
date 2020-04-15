@@ -22,9 +22,11 @@ public class ProductCreationModel {
     private String categoryName;
 
     @NotNull
+    @Size(min = 2, max = 255, message = "Product name should not be less than 2 symbols and should`nt be longer than 50")
     private String descriptionRu;
 
     @NotNull
+    @Size(min = 2, max = 255, message = "Product name should not be less than 2 symbols and should`nt be longer than 50")
     private String descriptionEn;
 
     @NotNull

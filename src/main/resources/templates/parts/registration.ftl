@@ -1,4 +1,5 @@
 <#macro registration path>
+<#import "/spring.ftl" as spring/>
 
 <form action="${path}" method="post" enctype="multipart/form-data" class="no-selectable">
     <input type="hidden" name="_csrf" value="${_csrf.token}" />
@@ -8,7 +9,7 @@
             <span class="invalid-input">${usernameError!}</span>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" id="user-addon">User Name :</span>
+                    <span class="input-group-text" id="user-addon"><@spring.message "userName"/> :</span>
                 </div>
                 <input type="text" class="form-control" aria-describedby="user-addon" name="username" value="${(user.username)!}">
             </div>
@@ -29,7 +30,7 @@
             <span class="invalid-input">${passwordError!}</span>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" id="password-addon">Password :</span>
+                    <span class="input-group-text" id="password-addon"><@spring.message "password"/> :</span>
                 </div>
                 <input type="password" name="password" class="form-control" aria-describedby="password-addon" value="">
             </div>
@@ -38,24 +39,24 @@
                 <span class="invalid-input">${password2Error!}</span>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="password-addon">Cofirm Password :</span>
+                        <span class="input-group-text" id="password-addon"><@spring.message "confirm"/> <@spring.message "password"/> :</span>
                     </div>
                     <input type="password" name="password2" class="form-control" aria-describedby="password-addon">
                 </div>
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">Upload</span>
+                    <span class="input-group-text"><@spring.message "upload"/></span>
                 </div>
                 <div class="custom-file">
                     <input type="file" class="custom-file-input" id="inputGroupFile01" name="avatar">
-                    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                    <label class="custom-file-label" for="inputGroupFile01"><@spring.message "chooseFile"/></label>
                 </div>
             </div>
 
-            <input class="btn btn-primary" type="submit" <#if path=="/userUpdate"> value="Update"
+            <input class="btn btn-primary" type="submit" <#if path=="/userUpdate"> value="<@spring.message "update"/>"
             <#else>
-                value="Sign In"
+                value="<@spring.message "register"/>"
                 </#if>/>
         </div>
 
@@ -64,7 +65,7 @@
                 <span class="invalid-input">${emailError!}</span>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="email-addon">Email :</span>
+                        <span class="input-group-text" id="email-addon"><@spring.message "email"/> :</span>
                     </div>
                     <input type="email" class="form-control" aria-describedby="email-addon" name="email" value="${(user.email)!}">
                 </div>
@@ -73,7 +74,7 @@
                 <span class="invalid-input">${birthDateError!}</span>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="birth-addon">Birth Date :</span>
+                        <span class="input-group-text" id="birth-addon"><@spring.message "birthDate"/> :</span>
                     </div>
                     <input type="date" name="birthDate" class="form-control" aria-describedby="birth-addon" value="${(user.birthDate)!}">
                 </div>
@@ -82,7 +83,7 @@
                 <span class="invalid-input">${countryError!}</span>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <label class="input-group-text" for="inputGroupSelect01">County</label>
+                        <label class="input-group-text" for="inputGroupSelect01"><@spring.message "country"/></label>
                     </div>
                     <select class="custom-select" id="inputGroupSelect01" name="country" onchange="countryChange()">
             <option selected value="${(user.country)!}">${(user.country)!}</option>
@@ -95,7 +96,7 @@
                 <span class="invalid-input">${stateError!}</span>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <label class="input-group-text" for="inputGroupSelect02">State</label>
+                        <label class="input-group-text" for="inputGroupSelect02"><@spring.message "state"/></label>
                     </div>
                     <select class="custom-select" id="inputGroupSelect02" name="state" disabled>
             <option selected value="${(user.state)!}">${(user.state)!}</option>

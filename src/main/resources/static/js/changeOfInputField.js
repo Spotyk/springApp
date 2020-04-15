@@ -4,6 +4,7 @@ var EMAIL_SELECTOR = ".email";
 var STATE_SELECTOR = ".state";
 var COUNTRY_SELECTOR = ".country";
 var USERNAME_SELECTOR = ".username";
+var STATUS_SELECTOR = ".status";
 var csrfToken = $("meta[name='_csrf']").attr("content");
 
 
@@ -12,12 +13,20 @@ function makeAble(event){
 
     let $inputField = $thisButton.parent().parent().find(INPUT_SELECTOR);
 
-    if($thisButton.text() == "Change"){
+    if($thisButton.text() == "Change" || $thisButton.text() == "Изменить"){
         if($inputField.attr("name") === "state"){
             countryChange();
         }
         disableElementJQ($inputField, false);
-        changeButtonText($thisButton, 'Save');
+        getByUrl("http://localhost:8080/getCurrentLanguage").statusCode({
+                    200:function(lang){
+                        if(lang == "ru"){
+                            changeButtonText($thisButton, 'Сохранить');
+                        }else{
+                            changeButtonText($thisButton, 'Save');
+                        }
+                    }
+                });
     }else{
         confirmValue($inputField, $thisButton);
     }
@@ -26,7 +35,15 @@ function makeAble(event){
 function confirmValue($inputField, $button){
 sendUpdateRequest($inputField);
 
-    changeButtonText($button, 'Change');
+    getByUrl("http://localhost:8080/getCurrentLanguage").statusCode({
+                        200:function(lang){
+                            if(lang == "ru"){
+                                changeButtonText($thisButton, 'Изменить');
+                            }else{
+                                changeButtonText($thisButton, 'Change');
+                            }
+                        }
+                    });
     disableElementJQ($inputField, true);
     }
 
@@ -98,12 +115,30 @@ function makeAbleFields(event){
 
     let $inputFields = $thisButton.parent().parent().find(INPUT_SELECTOR);
 
-    if($thisButton.text() == "Change"){
+    if($thisButton.text() == "Change" || $thisButton.text() == "Изменить"){
         disableElementJQ($inputFields, false);
-        changeButtonText($thisButton, 'Save');
+        getByUrl("http://localhost:8080/getCurrentLanguage").statusCode({
+            200:function(lang){
+                if(lang == "ru"){
+                    changeButtonText($thisButton, 'Сохранить');
+                }else{
+                    changeButtonText($thisButton, 'Save');
+                }
+            }
+        });
+
     }else{
         disableElementJQ($inputFields, true);
-        changeButtonText($thisButton, 'Change');
+
+                getByUrl("http://localhost:8080/getCurrentLanguage").statusCode({
+                    200:function(lang){
+                        if(lang == "ru"){
+                            changeButtonText($thisButton, 'Изменить');
+                        }else{
+                            changeButtonText($thisButton, 'Change');
+                        }
+                    }
+                });
 
         let $grandParent = $thisButton.parent().parent();
 
@@ -112,12 +147,13 @@ function makeAbleFields(event){
         let $inputEmailValue = $grandParent.find(INPUT_SELECTOR + EMAIL_SELECTOR);
         let $inputCountryValue = $grandParent.find(INPUT_SELECTOR + COUNTRY_SELECTOR);
         let $inputStateValue = $grandParent.find(INPUT_SELECTOR + STATE_SELECTOR);
+        let $inputStatusValue = $grandParent.find(INPUT_SELECTOR + STATUS_SELECTOR);
 
-        sendForm($inputIdValue, $inputUsernameValue, $inputEmailValue, $inputCountryValue, $inputStateValue);
+        sendForm($inputIdValue, $inputUsernameValue, $inputEmailValue, $inputCountryValue, $inputStateValue, $inputStatusValue);
     }
 }
 
-function sendForm($inputIdValue, $inputUsernameValue, $inputEmailValue, $inputCountryValue, $inputStateValue){
+function sendForm($inputIdValue, $inputUsernameValue, $inputEmailValue, $inputCountryValue, $inputStateValue, $inputStatusValue){
     $.ajax({
             url: `/changeUserInfo`,
             type: 'post',
@@ -126,6 +162,7 @@ function sendForm($inputIdValue, $inputUsernameValue, $inputEmailValue, $inputCo
             username:$inputUsernameValue.val(),
             email:$inputEmailValue.val(),
             country:$inputCountryValue.val(),
+            status:$inputStatusValue.val(),
             state:$inputStateValue.val() }
         }).statusCode({
             200: function() {
