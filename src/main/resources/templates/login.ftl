@@ -18,6 +18,9 @@
             </div>
             <input type="hidden" name="_csrf" value="${_csrf.token}" />
             <div>
+            <div>
+            <img src="/static/image/robot.png">
+            </div>
                 <input class="btn btn-primary" type="submit" value="<@spring.message "logIn"/>" />
                 <a class="btn btn-primary" href="/registration"><@spring.message "register"/></a>
             </div>
