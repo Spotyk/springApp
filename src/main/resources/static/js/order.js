@@ -33,7 +33,7 @@ function getOrderDetails(event,id){
                                                                              $currentOrderDetails.append(`<tr>
                                                                                                          <td> ${prod.name}</td>
                                                                                                          <td>${data[index].quantity} </td>
-                                                                                                         <td>${data[index].product.price}</td>
+                                                                                                         <td>${prod.product.price}</td>
                                                                                                                  </tr>`);
                                                                             }
                                                                             });

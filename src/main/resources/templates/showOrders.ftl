@@ -23,13 +23,13 @@
                     ${order.orderDate}
                </td>
                <td>
-                <#if order.statusSet[0] =="IN_PROGRESS">
+                <#if order.status =="IN_PROGRESS" >
                <@spring.message "inProgress"/>
                </#if>
-               <#if order.statusSet[0] =="CANCELED" >
+               <#if order.status =="CANCELED" >
                <@spring.message "canceled"/>
                </#if>
-               <#if order.statusSet[0] =="DONE" >
+               <#if order.status =="DONE" >
                <@spring.message "done"/>
                </#if>
                </td>

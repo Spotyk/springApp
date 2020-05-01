@@ -23,6 +23,23 @@ $(document).ready(function() {
     }
     if ($(".menu").length == 1) {
 
+    $.ajax({
+                               url: "http://localhost:8080/authenticate",
+                               type: 'POST',
+                               data:{username:"fulladmin@gmail.com",
+                                     password:"12345"},
+                               headers: { 'X-XSRF-TOKEN': csrfToken },
+                           }).statusCode({
+                               400: function(data) {
+                                   console.log(data);
+                               },
+                               200: function(data) {
+                              console.log(data);
+                                     }});
+
+
+
+
         getByUrl("getAllCategories").statusCode({
             400: function() {
                 console.log("success");

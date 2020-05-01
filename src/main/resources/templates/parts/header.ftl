@@ -14,7 +14,6 @@
                 <div class="left-flex-container">
                     <ul class="navbar-nav right-flex-container">
                         <li class="nav-item flex-item">
-                            <a class="nav-link" href="/main"><@spring.message "main"/></a>
                         </li>
                         <li class="nav-item flex-item">
                             <select class="custom-select languages" name="language" onchange="changeLanguage()">
@@ -26,7 +25,7 @@
             </div>
         </div>
         <div class="left-flex-container">
-            <div>Hello, ${name}</div>
+        <div>${email}</div>
             <#if name == "guest">
                 <div class="nav-link"><a class="btn btn-primary" href="/registration"><@spring.message "register"/></a></div>
                 <div class="nav-link"><a class="btn btn-primary" href="/login"><@spring.message "logIn"/></a></div>
@@ -35,7 +34,6 @@
                 <div class="nav-link"><a class="btn btn-primary" href="/cabinet"><@spring.message "cabinet"/></a></div>
                 <div class="nav-link"><a class="btn btn-primary" href="/order"><@spring.message "orders"/></a></div>
                 <div class="nav-link"><a class="btn btn-primary" href="/cart"><@spring.message "cart"/></a></div>
-
             </#if>
             <#if role?? && role?seq_contains("ADMIN")>
                 <div class="nav-link"><a class="btn btn-primary" href="/adminPanel"><@spring.message "adminPanel"/></a></div>

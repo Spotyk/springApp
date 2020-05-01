@@ -34,6 +34,7 @@
     </div>
     <form method="POST" enctype="multipart/form-data" id="fileUploadForm">
          <span class="invalid-input filePathError no-display">file name is not valid</span>
+
                 <div class="input-group mb-3">
                     <input type="file" name="filePath" class="form-control" aria-describedby="pass-addon" disabled>
                 <div class="input-group-append">

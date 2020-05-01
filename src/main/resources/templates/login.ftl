@@ -3,7 +3,7 @@
 
 <@common.page>
     <div class="login-form-position no-selectable">
-        <form action="/login" method="post">
+        <form action="/authenticate" method="post">
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="user-addon"><@spring.message "email"/> :</span>
@@ -18,6 +18,9 @@
             </div>
             <input type="hidden" name="_csrf" value="${_csrf.token}" />
             <div>
+            <div>
+            <img src="/static/image/robot.png">
+            </div>
                 <input class="btn btn-primary" type="submit" value="<@spring.message "logIn"/>" />
                 <a class="btn btn-primary" href="/registration"><@spring.message "register"/></a>
             </div>
