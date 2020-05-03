@@ -22,19 +22,19 @@ function getCartItems() {
     return $.ajax({
         url: "/getItemsById",
         type: 'GET',
-        data: { items: itemsArray },
-        headers: { 'X-XSRF-TOKEN': csrfToken },
+        data: {items: itemsArray},
+        headers: {'X-XSRF-TOKEN': csrfToken},
     })
 }
 
 function showCartItems() {
     getCartItems().statusCode({
-        400: function() {
+        400: function () {
             console.log("success");
         },
-        200: function(data) {
+        200: function (data) {
             getByUrl("http://localhost:8080/getCurrentLanguage").statusCode({
-                200: function(lang) {
+                200: function (lang) {
                     if (lang == "ru") {
                         var totalAmount = 0;
                         for (index in data) {
@@ -104,13 +104,13 @@ function createOrder() {
     $.ajax({
         url: "/createOrder",
         type: 'POST',
-        data: { items: itemsArray },
-        headers: { 'X-XSRF-TOKEN': csrfToken },
+        data: {items: itemsArray},
+        headers: {'X-XSRF-TOKEN': csrfToken},
     }).statusCode({
-        400: function() {
+        400: function () {
             console.log("success");
         },
-        200: function(data) {
+        200: function (data) {
             localStorage.clear()
             window.location.replace("/order")
         }
@@ -119,7 +119,7 @@ function createOrder() {
 
 function deleteItem(event, id) {
 
-    let newArr = itemsArray.filter(function(ele) {
+    let newArr = itemsArray.filter(function (ele) {
         return ele != id;
     });
     localStorage.setItem('items', JSON.stringify(newArr))

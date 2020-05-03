@@ -4,28 +4,28 @@
     position: fixed;
     left: 0;
     bottom: 0;
-    background-color: #f8f9fa!important
+    background-color: #f8f9fa !important
 }
 
-.login-form-position{
+.login-form-position {
     width: 25%;
     position: fixed;
     left: 35%;
     top: 30%;
 }
 
-.fixed{
-position: fixed;
+.fixed {
+    position: fixed;
 }
 
-.invalid-input{
-    color:red;
+.invalid-input {
+    color: red;
 }
 
-.user-avatar{
+.user-avatar {
     width: 100px;
     height: 100px;
-    margin:20px;
+    margin: 20px;
 }
 
 .reg-form-position-left {
@@ -225,16 +225,16 @@ main.main-container {
     align-items: center;
 }
 
-.left-category-menu{
+.left-category-menu {
 
 }
 
-.right-flex-container>.flex-item {
+.right-flex-container > .flex-item {
     position: relative;
     padding: 10px;
 }
 
-.left-flex-container>.flex-item {
+.left-flex-container > .flex-item {
     position: relative;
     padding: 10px;
 }

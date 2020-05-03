@@ -2,5 +2,5 @@
 <#import "parts/category.ftl" as category>
 
 <@common.page>
-<@category.category "/updateCategory" />
+    <@category.category "/updateCategory" />
 </@common.page>

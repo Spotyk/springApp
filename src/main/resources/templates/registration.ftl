@@ -2,6 +2,6 @@
 <#import "parts/registration.ftl" as reg>
 
 <@common.page>
-${message!}
-<@reg.registration "/registration" />
+    ${message!}
+    <@reg.registration "/registration" />
 </@common.page>

@@ -4,15 +4,15 @@ var main = "";
 var host = window.location.hostname;
 var port = window.location.port;
 
-$(document).ready(function() {
+$(document).ready(function () {
     if ($(".product-category-list").length == 1) {
         var $categoryList = $(".product-category-list");
         $categoryList.length = 0;
         getByUrl("http://localhost:8080/getCategories").statusCode({
-            400: function() {
+            400: function () {
                 console.log("success");
             },
-            200: function(data) {
+            200: function (data) {
                 $categoryList = data;
                 for (index in data) {
                     $('.product-category-list').append(`<option value="${data[index].name}">${data[index].name}</option>`);
@@ -24,10 +24,10 @@ $(document).ready(function() {
     if ($(".menu").length == 1) {
 
         getByUrl("getAllCategories").statusCode({
-            400: function() {
+            400: function () {
                 console.log("success");
             },
-            200: function(data) {
+            200: function (data) {
                 categoryList = data;
                 for (index in data) {
                     $(".menu").append(`<button class="flex-inline-item btn btn-dark" onclick="getProductsByCategoryName(event)">${data[index].name}</button>`);
@@ -38,15 +38,15 @@ $(document).ready(function() {
 
     if ($(".product-list").children().length < 1) {
         getByUrl("/getAllProducts").statusCode({
-            400: function() {
+            400: function () {
                 console.log("success");
             },
-            200: function(data) {
+            200: function (data) {
                 categoryList = data;
                 if (window.location.href === "http://localhost:8080/showProducts") {
                     getByUrl("http://localhost:8080/getCurrentLanguage").statusCode({
 
-                        200: function(lang) {
+                        200: function (lang) {
                             if (lang == "ru") {
                                 for (index in data) {
                                     $(".product-list").append(`<div class="flex-item">
@@ -83,7 +83,7 @@ $(document).ready(function() {
 
                 } else {
                     getByUrl("http://localhost:8080/getCurrentLanguage").statusCode({
-                        200: function(lang) {
+                        200: function (lang) {
                             if (lang == "ru") {
                                 for (index in data) {
                                     $(".product-list").append(`<div class="flex-item">
@@ -127,7 +127,7 @@ function getByUrl(url) {
     return $.ajax({
         url: url,
         type: 'GET',
-        headers: { 'X-XSRF-TOKEN': csrfToken },
+        headers: {'X-XSRF-TOKEN': csrfToken},
     });
 }
 
@@ -137,15 +137,15 @@ function getProductsByCategoryName(event) {
     $.ajax({
         url: "/category",
         type: 'GET',
-        headers: { 'X-XSRF-TOKEN': csrfToken },
-        data: { name: categoryName }
+        headers: {'X-XSRF-TOKEN': csrfToken},
+        data: {name: categoryName}
     }).statusCode({
-        400: function() {
+        400: function () {
             console.log("success");
         },
-        200: function(data) {
+        200: function (data) {
             getByUrl("http://localhost:8080/getCurrentLanguage").statusCode({
-                200: function(lang) {
+                200: function (lang) {
                     if (lang == "ru") {
                         for (index in data) {
                             $(".product-list").append(`<div class="flex-item">

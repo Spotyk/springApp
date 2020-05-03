@@ -2,5 +2,5 @@
 <#import "parts/language.ftl" as language>
 
 <@common.page>
-<@language.language "/updateLanguage" />
+    <@language.language "/updateLanguage" />
 </@common.page>

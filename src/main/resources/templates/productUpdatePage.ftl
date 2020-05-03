@@ -2,5 +2,5 @@
 <#import "parts/product.ftl" as product>
 
 <@common.page>
-<@product.product "/updateProduct" />
+    <@product.product "/updateProduct" />
 </@common.page>
