@@ -1,19 +1,20 @@
 package ua.knucea.service.impl;
 
-import ua.knucea.domain.entity.Role;
-import ua.knucea.domain.entity.User;
-import ua.knucea.domain.model.UserModel;
-import ua.knucea.domain.model.admin.UserUpdateForm;
-import ua.knucea.repository.UserRepository;
-import ua.knucea.service.UserService;
-import ua.knucea.util.FileSaver;
-import ua.knucea.util.UserExtractorFromDTO;
-import ua.knucea.util.Validator;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ua.knucea.command.constant.Constants;
+import ua.knucea.domain.entity.Role;
+import ua.knucea.domain.entity.User;
+import ua.knucea.domain.model.UserModel;
+import ua.knucea.domain.model.admin.UserUpdateForm;
+import ua.knucea.exception.UserNotExistsException;
+import ua.knucea.repository.UserRepository;
+import ua.knucea.service.UserService;
+import ua.knucea.util.FileSaver;
+import ua.knucea.util.UserExtractorFromDTO;
+import ua.knucea.util.Validator;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -206,7 +207,7 @@ public class UserServiceImpl implements UserService {
             return false;
         }
 
-        User userFromBd = optionalUserFromBD.get();
+        User userFromBd = optionalUserFromBD.orElseThrow(() -> new UserNotExistsException("User doesnt exist."));
 
         String currentEmail = userFromBd.getEmail();
         String newEmail = form.getEmail();
