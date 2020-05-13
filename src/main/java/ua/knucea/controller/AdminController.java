@@ -69,6 +69,7 @@ public class AdminController {
         return "users";
     }
 
+
     @GetMapping("/categoryUpdatePage")
     public String getCategoryUpdatePage() {
         return "categoryUpdatePage";
