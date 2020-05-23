@@ -28,4 +28,6 @@ public interface ProductService {
     ProductModel getProductEntityByProductIdAndLanguageName(Long id, String langName);
 
     ProductLocalization getProductByProductIdAndLanguageName(Long id, String langName);
+
+    boolean deleteProduct(ProductEntity productEntity);
 }

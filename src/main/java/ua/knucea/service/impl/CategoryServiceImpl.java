@@ -1,5 +1,9 @@
 package ua.knucea.service.impl;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.knucea.domain.entity.Language;
 import ua.knucea.domain.entity.category.CategoryEntity;
 import ua.knucea.domain.entity.category.CategoryLocalization;
@@ -10,8 +14,6 @@ import ua.knucea.repository.CategoryEntityRepository;
 import ua.knucea.repository.CategoryRepository;
 import ua.knucea.repository.LanguageRepository;
 import ua.knucea.service.CategoryService;
-import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -90,6 +92,16 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository.findAllByLanguageId(language.getId())
                 .stream().map(this::convertToCategory)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    @Modifying
+    @Transactional
+    public boolean deleteByName(String categoryName) {
+        CategoryEntity currentCategory = findByName(categoryName).getCategoryEntity();
+        categoryRepository.deleteByCategoryEntityEquals(currentCategory);
+        categoryEntityRepository.deleteById(currentCategory.getId());
+        return true;
     }
 
     private Category convertToCategory(CategoryLocalization categoryLocalization) {

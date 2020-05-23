@@ -1,5 +1,14 @@
 package ua.knucea.controller;
 
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import ua.knucea.domain.entity.Order;
 import ua.knucea.domain.entity.Role;
 import ua.knucea.domain.entity.product.ProductEntity;
@@ -17,17 +26,9 @@ import ua.knucea.service.LanguageService;
 import ua.knucea.service.OrderService;
 import ua.knucea.service.ProductService;
 import ua.knucea.service.UserService;
-import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -139,6 +140,17 @@ public class AdminController {
         return "productUpdatePage";
     }
 
+    @GetMapping("/deleteProduct/{productId}")
+    public String deleteProduct(@PathVariable ProductEntity productId) {
+        productService.deleteProduct(productId);
+        return "adminPanel";
+    }
+
+    @GetMapping("/deleteCategoryPage")
+    public String deleteCategoryPage() {
+        return "categoryDeletePage";
+    }
+
     @PreAuthorize(HAS_ADMIN_AUTHORITY)
     @GetMapping("/addManager")
     public String addManager() {
@@ -154,6 +166,12 @@ public class AdminController {
     @PostMapping("/updateProduct")
     public String updateProduct(@Valid ProductUpdateModel updateModel) throws IOException {
         productService.updateProduct(updateModel);
+        return "showProducts";
+    }
+
+    @PostMapping("/deleteCategory")
+    public String deleteCategory(@NotNull String categoryName) throws IOException {
+        categoryService.deleteByName(categoryName);
         return "showProducts";
     }
 

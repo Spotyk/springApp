@@ -16,4 +16,6 @@ public interface CategoryService {
     boolean updateCategory(CategoryUpdateModel categoryUpdateModel);
 
     List<Category> getAllCategories(String languageName);
+
+    boolean deleteByName(String categoryName);
 }

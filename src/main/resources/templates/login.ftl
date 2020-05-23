@@ -18,9 +18,6 @@
             </div>
             <input type="hidden" name="_csrf" value="${_csrf.token}"/>
             <div>
-
-                <div class="g-recaptcha" data-sitekey="6LcluPEUAAAAAF0UAAX4J4yotF5fuaQZkkZiPbZ-"></div>
-
                 <input class="btn btn-primary" type="submit" value="<@spring.message "logIn"/>"/>
                 <a class="btn btn-primary" href="/registration"><@spring.message "register"/></a>
             </div>

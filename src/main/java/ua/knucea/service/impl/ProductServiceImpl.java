@@ -1,5 +1,11 @@
 package ua.knucea.service.impl;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import ua.knucea.domain.entity.Language;
 import ua.knucea.domain.entity.category.CategoryEntity;
 import ua.knucea.domain.entity.category.CategoryLocalization;
@@ -16,10 +22,6 @@ import ua.knucea.repository.ProductLocalizationRepository;
 import ua.knucea.repository.ProductRepository;
 import ua.knucea.service.ProductService;
 import ua.knucea.util.FileSaver;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -214,5 +216,14 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductLocalization getProductByProductIdAndLanguageName(Long id, String langName) {
         return productLocalizationRepository.findByProductIdAndLanguageId(id, languageRepository.findByName(langName).getId());
+    }
+
+    @Override
+    @Modifying
+    @Transactional
+    public boolean deleteProduct(ProductEntity entity) {
+        productLocalizationRepository.deleteByProductId(entity.getId());
+        productRepository.deleteById(entity.getId());
+        return true;
     }
 }

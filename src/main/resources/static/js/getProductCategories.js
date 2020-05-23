@@ -58,6 +58,8 @@ $(document).ready(function () {
                                                                                    <p class="card-text">Цена: ${data[index].price}</p>
                                                                                    <a href="#" class="btn btn-primary">Купить</a>
                                                                                    <a href="/updateProduct/${data[index].id}" class="btn btn-primary">Обновить</a>
+                                                                                   <a href="/deleteProduct/${data[index].id}" class="btn btn-primary">Удалить</a>
+                                                                                   
                                                                                  </div>
                                                                                </div>
                                                                            </div>`);

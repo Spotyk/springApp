@@ -11,6 +11,7 @@
     <a class="btn btn-info" href="/showOrders"><@spring.message "show"/> <@spring.message "orders"/></a>
     <a class="btn btn-info" href="/languageCreationPage"><@spring.message "create"/> <@spring.message "language"/></a>
     <a class="btn btn-info" href="/languageUpdatePage"><@spring.message "update"/> <@spring.message "language"/></a>
+    <a class="btn btn-info" href="/categoryDeletePage.ftl"><@spring.message "delete"/> <@spring.message "category"/></a>
 
     <#if sec.role?? && sec.role?seq_contains("ADMIN")>
         <a class="btn btn-info" href="/addAdmin"><@spring.message "create"/>Admin</a>
