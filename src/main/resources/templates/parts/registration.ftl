@@ -57,7 +57,14 @@
                         <label class="custom-file-label" for="inputGroupFile01"><@spring.message "chooseFile"/></label>
                     </div>
                 </div>
-                <div class="g-recaptcha" data-sitekey="6LcluPEUAAAAAF0UAAX4J4yotF5fuaQZkkZiPbZ-"></div>
+                <#if path=="/registration">
+                    <div class="g-recaptcha" data-sitekey="6LcluPEUAAAAAF0UAAX4J4yotF5fuaQZkkZiPbZ-"></div>
+                    <#if captchaError??>
+                        <div class="alert alert-danger" role="alert">
+                            ${captchaError}
+                        </div>
+                    </#if>
+                </#if>
                 <input class="btn btn-primary"
                        type="submit" <#if path=="/userUpdate"> value="<@spring.message "update"/>"
                 <#else>

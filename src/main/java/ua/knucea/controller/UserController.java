@@ -1,14 +1,5 @@
 package ua.knucea.controller;
 
-import ua.knucea.command.UpdateCommandContainer;
-import ua.knucea.command.UpdateUserCommand;
-import ua.knucea.domain.entity.Role;
-import ua.knucea.domain.entity.User;
-import ua.knucea.domain.model.InputFieldModel;
-import ua.knucea.domain.model.impl.RegistrationFormUserModel;
-import ua.knucea.domain.model.impl.UpdateFormUserModel;
-import ua.knucea.service.UserService;
-import ua.knucea.util.UserUpdateContainerInitializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,7 +10,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
+import ua.knucea.command.UpdateCommandContainer;
+import ua.knucea.command.UpdateUserCommand;
+import ua.knucea.domain.entity.Role;
+import ua.knucea.domain.entity.User;
+import ua.knucea.domain.model.InputFieldModel;
+import ua.knucea.domain.model.impl.RegistrationFormUserModel;
+import ua.knucea.domain.model.impl.UpdateFormUserModel;
+import ua.knucea.service.UserService;
+import ua.knucea.util.UserUpdateContainerInitializer;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -31,12 +32,17 @@ import java.util.Map;
 @Controller
 public class UserController {
 
+
+
+
     private final PasswordEncoder encoder;
 
     private final UserService userService;
 
     @Value("${upload.path}")
     private String uploadPath;
+
+
 
     public UserController(final PasswordEncoder encoder, final UserService userService) {
         this.encoder = encoder;
@@ -139,32 +145,5 @@ public class UserController {
         return answer;
     }
 
-    @GetMapping("/registration")
-    public String register() {
-        return "registration";
-    }
 
-    @PostMapping("/registration")
-    public String addUser(
-            @Valid RegistrationFormUserModel registrationFormUserModel,
-            BindingResult bindingResult,
-            Model model
-    ) throws IOException {
-        if (registrationFormUserModel.getPassword() != null && !registrationFormUserModel.getPassword().equals(registrationFormUserModel.getPassword2())) {
-            model.addAttribute("passwordError", "Passwords are different!");
-        }
-
-        if (bindingResult.hasErrors()) {
-            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
-            model.mergeAttributes(errors);
-            return "registration";
-        }
-
-        if (!userService.addUser(registrationFormUserModel, Role.USER)) {
-            model.addAttribute("emailError", "Email exists!");
-            return "registration";
-        }
-
-        return "redirect:/login";
-    }
 }
