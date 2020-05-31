@@ -32,7 +32,9 @@ public interface UserService extends UserDetailsService {
 
     String updateAvatarPath(MultipartFile avatar, String uploadPath, User user) throws IOException;
 
-    List<User> findAllUsers();
+    List<User> findUsersByRole(Role role);
 
     boolean updateUserByAdmin(UserUpdateForm form);
+
+    boolean deleteUserByAdmin(Long id);
 }

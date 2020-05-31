@@ -66,10 +66,16 @@ public class AdminController {
     @PreAuthorize(HAS_ADMIN_AUTHORITY)
     @GetMapping("/users")
     public String getAllUsers(Model model) {
-        model.addAttribute("users", userService.findAllUsers());
+        model.addAttribute("users", userService.findUsersByRole(Role.USER));
         return "users";
     }
 
+    @PreAuthorize(HAS_ADMIN_AUTHORITY)
+    @GetMapping("/managers")
+    public String getAllManagers(Model model) {
+        model.addAttribute("users", userService.findUsersByRole(Role.MANAGER));
+        return "showManagers";
+    }
 
     @GetMapping("/categoryUpdatePage")
     public String getCategoryUpdatePage() {
@@ -173,6 +179,12 @@ public class AdminController {
     public String deleteCategory(@NotNull String categoryName) throws IOException {
         categoryService.deleteByName(categoryName);
         return "showProducts";
+    }
+
+    @PostMapping("/deleteManager")
+    public String deleteManager(@NotNull Long id) throws IOException {
+        userService.deleteUserByAdmin(id);
+        return "showManagers";
     }
 
     @PostMapping("/createProduct")

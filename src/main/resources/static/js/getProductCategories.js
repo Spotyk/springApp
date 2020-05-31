@@ -75,6 +75,7 @@ $(document).ready(function () {
                                                                    <p class="card-text">Price: ${data[index].price}</p>
                                                                    <a href="#" class="btn btn-primary">Buy</a>
                                                                    <a href="/updateProduct/${data[index].id}" class="btn btn-primary">Update</a>
+                                                                   <a href="/deleteProduct/${data[index].id}" class="btn btn-primary">Delete</a>
                                                                  </div>
                                                                </div>
                                                            </div>`);

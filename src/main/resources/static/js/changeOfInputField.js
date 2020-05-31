@@ -112,6 +112,25 @@ function showArrayFromString(array) {
     });
 }
 
+function deleteUser(userId) {
+    $.ajax({
+        url: `/deleteManager`,
+        type: 'post',
+        headers: {'X-XSRF-TOKEN': csrfToken},
+        data: {
+            id: userId
+        }
+    }).statusCode({
+        200: function () {
+            console.log("success");
+            window.location.reload(true);
+        },
+        400: function () {
+
+        }
+    });
+}
+
 function makeAbleFields(event) {
     event.preventDefault();
     let $thisButton = $(event.target);

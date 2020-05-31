@@ -1,8 +1,10 @@
 package ua.knucea.service.impl;
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import ua.knucea.command.constant.Constants;
 import ua.knucea.domain.entity.Role;
@@ -195,8 +197,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findAllUsers() {
-        return userRepository.findAll();
+    public List<User> findUsersByRole(Role role) {
+        return userRepository.findAllByRoles(role);
     }
 
     @Override
@@ -225,6 +227,14 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(userFromBd);
 
+        return true;
+    }
+
+    @Override
+    @Transactional
+    @Modifying
+    public boolean deleteUserByAdmin(Long id) {
+        userRepository.deleteById(id);
         return true;
     }
 

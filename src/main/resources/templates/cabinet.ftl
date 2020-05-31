@@ -1,4 +1,5 @@
 <#import "parts/common.ftl" as common>
+<#import "/spring.ftl" as spring/>
 <#assign
 authorized = Session.SPRING_SECURITY_CONTEXT??
 >
@@ -47,15 +48,21 @@ authorized = Session.SPRING_SECURITY_CONTEXT??
 
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-                <span class="input-group-text" id="user-addon">User Status:</span>
+                <span class="input-group-text" id="user-addon"><@spring.message "status"/> :</span>
             </div>
             <input type="text" class="form-control" aria-describedby="user-addon" disabled
-                   value="${isEnabled?string('Active', 'not Active')}">
+                   value="
+                            <#if user.active == true>
+                                    <@spring.message "active"/>
+            <#else>
+               <@spring.message "disActive"/>
+            </#if>
+            ">
         </div>
         <span class="invalid-input usernameError no-display">User name is not valid</span>
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-                <span class="input-group-text" id="active-addon">User Name :</span>
+                <span class="input-group-text" id="active-addon"><@spring.message "userName"/> :</span>
             </div>
             <input type="text" class="form-control" aria-describedby="active-addon" name="username" disabled
                    value="${name}">
@@ -68,7 +75,8 @@ authorized = Session.SPRING_SECURITY_CONTEXT??
         <span class="invalid-input passwordError no-display">Password name is not valid</span>
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-                <span class="input-group-text" id="pass-addon">New Password :</span>
+                <span class="input-group-text"
+                      id="pass-addon"><@spring.message "new"/> <@spring.message "password"/>  :</span>
             </div>
             <input type="password" name="password" class="form-control" aria-describedby="pass-addon" disabled value="">
             <div class="input-group-append">
@@ -81,7 +89,7 @@ authorized = Session.SPRING_SECURITY_CONTEXT??
         <span class="invalid-input emailError no-display">Email name is not valid</span>
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-                <span class="input-group-text" id="email-addon">Email :</span>
+                <span class="input-group-text" id="email-addon"><@spring.message "email"/> :</span>
             </div>
             <input type="email" class="form-control" aria-describedby="email-addon" name="email" disabled
                    value="${email}">
@@ -93,7 +101,7 @@ authorized = Session.SPRING_SECURITY_CONTEXT??
         <span class="invalid-input birthDateError no-display">User name is not valid</span>
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-                <span class="input-group-text" id="birth-addon">Birth Date :</span>
+                <span class="input-group-text" id="birth-addon"><@spring.message "birthDate"/> :</span>
             </div>
             <input type="date" name="birthDate" class="form-control" aria-describedby="birth-addon" disabled
                    value="${birthDate}">
@@ -104,7 +112,7 @@ authorized = Session.SPRING_SECURITY_CONTEXT??
         </div>
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-                <label class="input-group-text" for="inputGroupSelect01">County</label>
+                <label class="input-group-text" for="inputGroupSelect01"><@spring.message "country"/></label>
             </div>
             <select class="custom-select form-control" id="inputGroupSelect01" name="country" disabled
                     onchange="countryChange()">
@@ -119,7 +127,7 @@ authorized = Session.SPRING_SECURITY_CONTEXT??
         </div>
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-                <label class="input-group-text" for="inputGroupSelect02">State</label>
+                <label class="input-group-text" for="inputGroupSelect02"><@spring.message "state"/></label>
             </div>
             <select class="custom-select form-control" id="inputGroupSelect02" name="state" disabled>
                 <option selected value="${state}">${state}</option>
