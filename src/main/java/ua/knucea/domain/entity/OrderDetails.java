@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.util.Objects;
 
 @Entity
 public class OrderDetails {
@@ -27,7 +28,7 @@ public class OrderDetails {
     private ProductEntity product;
 
     @Column(name = "quantity")
-    private Long quantity;
+    private int quantity;
 
     public Long getId() {
         return id;
@@ -53,11 +54,24 @@ public class OrderDetails {
         this.product = product;
     }
 
-    public Long getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Long quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderDetails that = (OrderDetails) o;
+        return Objects.equals(product, that.product);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(product);
     }
 }

@@ -1,6 +1,5 @@
 @startuml
  class UserController {
- 	encoder:PasswordEncoder
  	userService:UserService
  	uploadPath:String
  	UserController()

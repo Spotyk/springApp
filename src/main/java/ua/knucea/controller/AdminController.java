@@ -1,6 +1,7 @@
 package ua.knucea.controller;
 
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -22,9 +23,11 @@ import ua.knucea.domain.model.admin.ProductUpdateModel;
 import ua.knucea.domain.model.admin.UserUpdateForm;
 import ua.knucea.domain.model.impl.RegistrationFormUserModel;
 import ua.knucea.service.CategoryService;
+import ua.knucea.service.DemandHistoryService;
 import ua.knucea.service.LanguageService;
 import ua.knucea.service.OrderService;
 import ua.knucea.service.ProductService;
+import ua.knucea.service.StockService;
 import ua.knucea.service.UserService;
 
 import javax.validation.Valid;
@@ -45,14 +48,20 @@ public class AdminController {
 
     private final CategoryService categoryService;
 
+    private final StockService stockService;
+
+    private final DemandHistoryService demandHistoryService;
+
     private final ProductService productService;
 
     private final OrderService orderService;
 
-    public AdminController(final LanguageService languageService, final UserService userService, final CategoryService categoryService, final ProductService productService,
+    public AdminController(final LanguageService languageService, final StockService stockService, final UserService userService, final CategoryService categoryService, DemandHistoryService demandHistoryService, final ProductService productService,
                            final OrderService orderService) {
         this.userService = userService;
         this.categoryService = categoryService;
+        this.stockService = stockService;
+        this.demandHistoryService = demandHistoryService;
         this.productService = productService;
         this.orderService = orderService;
         this.languageService = languageService;
@@ -61,6 +70,32 @@ public class AdminController {
     @GetMapping("/adminPanel")
     public String adminPanel() {
         return "adminPanel";
+    }
+
+    @GetMapping("/adminProductsDemand")
+    public String getProductsDemand(Model model) throws ChangeSetPersister.NotFoundException {
+        ;
+        model.addAttribute("products", demandHistoryService.findFirstByOrderByDemandDateDesc());
+
+        return "productDemandPage";
+    }
+
+    @GetMapping("/adminProductsAvailability")
+    public String getProductsAvailability() {
+        return "adminPanel";
+    }
+
+
+    @GetMapping("/adminGetStocks")
+    public String getStocks(Model model) {
+        demandHistoryService.createDemandHistory();
+        model.addAttribute("stocks", stockService.findAll());
+        return "stocks";
+    }
+    @GetMapping("/createDemandHistory")
+    public String createDemandHistory() {
+        demandHistoryService.createDemandHistory();
+        return "redirect:/adminProductsDemand";
     }
 
     @PreAuthorize(HAS_ADMIN_AUTHORITY)

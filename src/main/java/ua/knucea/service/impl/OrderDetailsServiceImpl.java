@@ -48,7 +48,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
         OrderDetails details = new OrderDetails();
 
         details.setProduct(item.getKey());
-        details.setQuantity(item.getValue());
+        details.setQuantity(item.getValue().intValue());
         details.setOrder(orderRepository.getOne(orderid));
 
         orderDetailsRepository.save(details);

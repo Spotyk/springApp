@@ -11,7 +11,6 @@ import ua.knucea.domain.entity.Role;
 import ua.knucea.domain.entity.User;
 import ua.knucea.domain.model.UserModel;
 import ua.knucea.domain.model.admin.UserUpdateForm;
-import ua.knucea.exception.UserNotExistsException;
 import ua.knucea.repository.UserRepository;
 import ua.knucea.service.UserService;
 import ua.knucea.util.FileSaver;
@@ -171,8 +170,8 @@ public class UserServiceImpl implements UserService {
 
         User userFromBd = findByEmail(user.getEmail());
 
-        userFromBd.setPassword(userExtractorFromDTO.encodePassword(password));
-        user.setPassword(userExtractorFromDTO.encodePassword(password));
+        userFromBd.setPassword(password);
+        user.setPassword(password);
 
         userRepository.save(userFromBd);
 
@@ -209,7 +208,7 @@ public class UserServiceImpl implements UserService {
             return false;
         }
 
-        User userFromBd = optionalUserFromBD.orElseThrow(() -> new UserNotExistsException("User doesnt exist."));
+        User userFromBd = optionalUserFromBD.orElseThrow(() -> new UsernameNotFoundException("User doesnt exist."));
 
         String currentEmail = userFromBd.getEmail();
         String newEmail = form.getEmail();

@@ -141,8 +141,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> getAllProducts(String languageName) {
         Language language = languageRepository.findByName(languageName);
-
-        return productLocalizationRepository.findAllByLanguageId(language.getId()).stream()
+        List<ProductLocalization> ls = productLocalizationRepository.findAllByLanguageId(language.getId());
+        if (ls == null) {
+            return null;
+        }
+        return ls.stream()
                 .map(this::convertToProduct)
                 .collect(Collectors.toList());
     }
