@@ -1,6 +1,6 @@
 package ua.knucea.domain.entity;
 
-public enum DemandLevel {
+public enum RiskLevel {
     GREEN, YELLOW, RED;
 
     public String getStatus() {

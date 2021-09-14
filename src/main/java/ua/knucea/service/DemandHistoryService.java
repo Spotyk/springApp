@@ -12,6 +12,6 @@ public interface DemandHistoryService {
 
     List<DemandHistory> findAll();
     void createDemandHistory();
-    List<ProductDemand> findFirstByOrderByDemandDateDesc() throws ChangeSetPersister.NotFoundException;
+    List<ProductDemand> findFirstByOrderByDemandDateDesc();
 
 }

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import ua.knucea.domain.entity.Order;
+import ua.knucea.domain.entity.ProductDemand;
+import ua.knucea.domain.entity.ProductExpiration;
 import ua.knucea.domain.entity.Role;
 import ua.knucea.domain.entity.product.ProductEntity;
 import ua.knucea.domain.model.OrderStatusModel;
@@ -24,6 +26,7 @@ import ua.knucea.domain.model.admin.UserUpdateForm;
 import ua.knucea.domain.model.impl.RegistrationFormUserModel;
 import ua.knucea.service.CategoryService;
 import ua.knucea.service.DemandHistoryService;
+import ua.knucea.service.ExpirationHistoryService;
 import ua.knucea.service.LanguageService;
 import ua.knucea.service.OrderService;
 import ua.knucea.service.ProductService;
@@ -33,6 +36,7 @@ import ua.knucea.service.UserService;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -52,19 +56,21 @@ public class AdminController {
 
     private final DemandHistoryService demandHistoryService;
 
+    private final ExpirationHistoryService expirationHistoryService;
+
     private final ProductService productService;
 
     private final OrderService orderService;
 
-    public AdminController(final LanguageService languageService, final StockService stockService, final UserService userService, final CategoryService categoryService, DemandHistoryService demandHistoryService, final ProductService productService,
-                           final OrderService orderService) {
+    public AdminController(UserService userService, LanguageService languageService, CategoryService categoryService, StockService stockService, DemandHistoryService demandHistoryService, ExpirationHistoryService expirationHistoryService, ProductService productService, OrderService orderService) {
         this.userService = userService;
+        this.languageService = languageService;
         this.categoryService = categoryService;
         this.stockService = stockService;
         this.demandHistoryService = demandHistoryService;
+        this.expirationHistoryService = expirationHistoryService;
         this.productService = productService;
         this.orderService = orderService;
-        this.languageService = languageService;
     }
 
     @GetMapping("/adminPanel")
@@ -74,28 +80,38 @@ public class AdminController {
 
     @GetMapping("/adminProductsDemand")
     public String getProductsDemand(Model model) throws ChangeSetPersister.NotFoundException {
-        ;
-        model.addAttribute("products", demandHistoryService.findFirstByOrderByDemandDateDesc());
+        List<ProductDemand> productDemands = demandHistoryService.findFirstByOrderByDemandDateDesc();
+
+        model.addAttribute("products", productDemands.isEmpty() ? Collections.emptyList() : productDemands);
 
         return "productDemandPage";
     }
 
-    @GetMapping("/adminProductsAvailability")
-    public String getProductsAvailability() {
-        return "adminPanel";
+    @GetMapping("/adminProductsExpiration")
+    public String getProductsAvailability(Model model) {
+        List<ProductExpiration> productExpirations = expirationHistoryService.findFirstByOrderByDemandDateDesc();
+
+        model.addAttribute("products", productExpirations.isEmpty() ? Collections.emptyList() : productExpirations);
+
+        return "productExpirationPage";
     }
 
 
     @GetMapping("/adminGetStocks")
     public String getStocks(Model model) {
-        demandHistoryService.createDemandHistory();
         model.addAttribute("stocks", stockService.findAll());
         return "stocks";
     }
+
     @GetMapping("/createDemandHistory")
     public String createDemandHistory() {
         demandHistoryService.createDemandHistory();
         return "redirect:/adminProductsDemand";
+    }
+    @GetMapping("/createExpirationHistory")
+    public String createExpirationHistory() {
+        expirationHistoryService.createExpirationHistory();
+        return "redirect:/adminProductsExpiration";
     }
 
     @PreAuthorize(HAS_ADMIN_AUTHORITY)

@@ -15,23 +15,34 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class ProductDemand {
+public class ProductExpiration {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "demand_history_id")
-    private DemandHistory demandHistory;
+    @JoinColumn(name = "expiration_history_id")
+    private ExpirationHistory expirationHistory;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
     private ProductEntity product;
 
-    @CollectionTable(name = "demand_level", joinColumns = @JoinColumn(name = "product_demand_id"))
+    @CollectionTable(name = "expirateion_level", joinColumns = @JoinColumn(name = "product_expiration_id"))
     @Enumerated(EnumType.STRING)
     private RiskLevel level;
+
+    @Column(name = "days_left")
+    private Long daysLeft;
+
+    public Long getDaysLeft() {
+        return daysLeft;
+    }
+
+    public void setDaysLeft(Long daysLeft) {
+        this.daysLeft = daysLeft;
+    }
 
     public Long getId() {
         return id;
@@ -41,12 +52,12 @@ public class ProductDemand {
         this.id = id;
     }
 
-    public DemandHistory getDemandHistory() {
-        return demandHistory;
+    public ExpirationHistory getExpirationHistory() {
+        return expirationHistory;
     }
 
-    public void setDemandHistory(DemandHistory demandHistory) {
-        this.demandHistory = demandHistory;
+    public void setExpirationHistory(ExpirationHistory expirationHistory) {
+        this.expirationHistory = expirationHistory;
     }
 
     public RiskLevel getLevel() {

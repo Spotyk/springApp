@@ -14,7 +14,7 @@
     <a class="btn btn-info" href="/deleteCategoryPage"><@spring.message "delete"/> <@spring.message "category"/></a>
     <a class="btn btn-info" href="/managers"><@spring.message "show"/> <@spring.message "managers"/></a>
     <a class="btn btn-info" href="/adminProductsDemand"><@spring.message "show"/> <@spring.message "productsDemand"/></a>
-    <a class="btn btn-info" href="/adminProductsAvailability"><@spring.message "show"/> <@spring.message "productsAvailability"/></a>
+    <a class="btn btn-info" href="/adminProductsExpiration"><@spring.message "show"/> <@spring.message "productsExpiration"/></a>
     <a class="btn btn-info" href="/adminGetStocks"><@spring.message "show"/> <@spring.message "stock"/></a>
 
     <#if sec.role?? && sec.role?seq_contains("ADMIN")>

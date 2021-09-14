@@ -9,4 +9,6 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
     List<ProductEntity> findByCategoryId(long id);
 
+    List<ProductEntity> findByExpireDateIsNotNull();
+
 }

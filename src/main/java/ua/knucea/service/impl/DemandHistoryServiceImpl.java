@@ -4,7 +4,7 @@ import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.knucea.domain.entity.DemandHistory;
-import ua.knucea.domain.entity.DemandLevel;
+import ua.knucea.domain.entity.RiskLevel;
 import ua.knucea.domain.entity.OrderDetails;
 import ua.knucea.domain.entity.ProductDemand;
 import ua.knucea.domain.entity.product.ProductEntity;
@@ -15,8 +15,8 @@ import ua.knucea.repository.ProductDemandRepository;
 import ua.knucea.service.DemandHistoryService;
 
 import java.sql.Timestamp;
+import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DemandHistoryServiceImpl implements DemandHistoryService {
@@ -65,25 +65,25 @@ public class DemandHistoryServiceImpl implements DemandHistoryService {
     }
 
     @Override
-    public List<ProductDemand> findFirstByOrderByDemandDateDesc() throws ChangeSetPersister.NotFoundException {
-        long demandHistoryId = demandHistoryRepository
+    public List<ProductDemand> findFirstByOrderByDemandDateDesc(){
+        Long demandHistoryId = demandHistoryRepository
                 .findFirstByOrderByDemandDateDesc()
-                .orElseThrow(ChangeSetPersister.NotFoundException::new)
+                .orElse(new DemandHistory())
                 .getId();
-        return productDemandRepository.findAllByDemandHistoryId(demandHistoryId);
+        return demandHistoryId == null ? Collections.emptyList(): productDemandRepository.findAllByDemandHistoryId(demandHistoryId);
     }
 
-    private DemandLevel computeDemandLevel(ProductEntity product, Integer totalOrderQuantity) {
+    private RiskLevel computeDemandLevel(ProductEntity product, Integer totalOrderQuantity) {
         double level = (double) (product.getQuantity() / totalOrderQuantity);
 
         if (level <= 1) {
-            return DemandLevel.RED;
+            return RiskLevel.RED;
         }
         if (level <= 5) {
-            return DemandLevel.YELLOW;
+            return RiskLevel.YELLOW;
         }
 
-        return DemandLevel.GREEN;
+        return RiskLevel.GREEN;
     }
 
 

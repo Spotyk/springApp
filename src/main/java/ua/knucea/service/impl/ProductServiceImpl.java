@@ -120,6 +120,7 @@ public class ProductServiceImpl implements ProductService {
         newProduct.setPrice(model.getPrice());
         newProduct.setQuantity(model.getQuantity());
         newProduct.setCategory(currentCategory);
+        newProduct.setExpireDate(model.getExpireDate());
 
         MultipartFile avatar = model.getProductImg();
         if (avatar != null && !avatar.getOriginalFilename().isEmpty()) {

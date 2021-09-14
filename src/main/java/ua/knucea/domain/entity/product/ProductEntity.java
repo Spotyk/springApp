@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.time.LocalDate;
 
 @Entity
 public class ProductEntity {
@@ -30,6 +31,17 @@ public class ProductEntity {
 
     @Column(name = "imgPath", columnDefinition = "text")
     private String imgPath;
+
+    @Column(name = "expireDate")
+    private LocalDate expireDate;
+
+    public LocalDate getExpireDate() {
+        return expireDate;
+    }
+
+    public void setExpireDate(LocalDate expireDate) {
+        this.expireDate = expireDate;
+    }
 
     public Long getId() {
         return id;

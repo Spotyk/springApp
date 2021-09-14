@@ -64,6 +64,13 @@
             </div>
         </div>
 
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="birth-addon"><@spring.message "expireDate"/> :</span>
+            </div>
+            <input type="date" name="expireDate" class="form-control" aria-describedby="birth-addon">
+        </div>
+
         <#if path=="/updateProduct">
             <img class="user-avatar" src="http://localhost:8080/img/${(currentProduct.productImg)!}">
             <input class="btn btn-primary" type="submit"
